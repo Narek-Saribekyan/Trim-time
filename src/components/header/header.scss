@@ -20,6 +20,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        position: relative;
+
     }
 
     &__search {
@@ -45,7 +47,6 @@
             color: #4a4a4a;
             font-size: 14px;
             padding: 10px 10px 10px 40px;
-            position: relative;
 
 
         }
@@ -115,4 +116,44 @@
 
 @media(max-width:758px){
     
+}
+
+.searchResult{
+    width: 300px;
+    height: 200px;
+    background-color: #fff;
+    border: 1px solid;
+    border-radius: 0px 0px 20px 20px;
+    position: absolute;
+    top: 50px;
+    left: -40px;
+    z-index: 10;
+    display: none;
+    overflow-y:scroll ;
+    &.active{
+        display: block;
+    }
+}
+
+.searchList{
+    &__link:hover{
+        li{
+            background-color: #8e8e8e;
+        }
+    }
+    .searchItem{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        column-gap: 30px;
+        padding: 10px 20px;
+        img{
+            width: 20px;
+            border: 1px solid;
+            border-radius: 50%;
+        }
+        h2{
+            font-size: 20px;
+        }
+    }
 }
