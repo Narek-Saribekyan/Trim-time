@@ -8,7 +8,7 @@ const Background = () => {
                 <h2>Book your Trim</h2>
             </span>
             <div className="background_image">
-                <img src={mainBG} alt="" />
+                <img src={mainBG} alt=""/>
             </div>
         </div>
     );
