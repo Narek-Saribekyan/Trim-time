@@ -1,8 +1,11 @@
 .header {
   height: 80px;
+  width: 100%;
   display: flex;
   align-items: center;
-  border: 1px solid;
+  position: absolute;
+  top: 10px;
+  z-index: 2;
 }
 .header__row {
   display: flex;
@@ -13,7 +16,7 @@
 }
 .header__logo img {
   width: 70px;
-  margin-right: 20px;
+  margin: 0px 20px;
 }
 .header__buttons {
   display: flex;
@@ -43,6 +46,7 @@
   color: #4a4a4a;
   font-size: 14px;
   padding: 10px 10px 10px 40px;
+  outline: none;
 }
 .header__buttons {
   display: flex;
@@ -69,11 +73,13 @@
        column-gap: 48px;
 }
 .nav__item {
-  color: #000;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+}
+.nav__item a {
+  color: #ffffff;
 }
 .nav__item:hover {
   text-decoration: underline;

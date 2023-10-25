@@ -42,9 +42,14 @@ body {
   font-family: "Montserrat", serif;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 .container {
-  max-width: 1480px;
-  width: 100%;
+  width: 1480px;
   margin: 0 auto;
   padding: 0 20px;
 }

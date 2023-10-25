@@ -7,7 +7,6 @@ import { useState } from "react";
 const Header = () => {
 
     const [search, setSearch] = useState("")
-
     return (
         <header className="header">
             <div className="container">

@@ -1,8 +1,11 @@
 .header {
     height: 80px;
+    width: 100%;
     display: flex;
     align-items: center;
-    border: 1px solid;
+    position: absolute;
+    top: 10px;
+    z-index: 2;
 
     &__row {
         display: flex;
@@ -13,7 +16,7 @@
 
     &__logo img {
         width: 70px;
-        margin-right: 20px;
+        margin: 0px 20px;
     }
 
     &__buttons {
@@ -47,7 +50,7 @@
             color: #4a4a4a;
             font-size: 14px;
             padding: 10px 10px 10px 40px;
-
+            outline: none;
 
         }
     }
@@ -80,11 +83,14 @@
     }
 
     &__item {
-        color: #000;
         font-size: 14px;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
+
+        a {
+            color: #ffffff;
+        }
 
         &:hover {
             text-decoration: underline;
@@ -114,11 +120,9 @@
     }
 }
 
-@media(max-width:758px){
-    
-}
 
-.searchResult{
+
+.searchResult {
     width: 300px;
     height: 200px;
     background-color: #fff;
@@ -129,30 +133,34 @@
     left: -40px;
     z-index: 10;
     display: none;
-    overflow-y:scroll ;
-    &.active{
+    overflow-y: scroll;
+
+    &.active {
         display: block;
     }
 }
 
-.searchList{
-    &__link:hover{
-        li{
+.searchList {
+    &__link:hover {
+        li {
             background-color: #8e8e8e;
         }
     }
-    .searchItem{
+
+    .searchItem {
         width: 100%;
         display: flex;
         align-items: center;
         column-gap: 30px;
         padding: 10px 20px;
-        img{
+
+        img {
             width: 20px;
             border: 1px solid;
             border-radius: 50%;
         }
-        h2{
+
+        h2 {
             font-size: 20px;
         }
     }
