@@ -81,6 +81,9 @@
   }
 }
 @media (max-width: 780px) {
+  .header__logo {
+    margin: 0;
+  }
   .header__row {
     flex-wrap: wrap;
     justify-content: center;
