@@ -1,5 +1,6 @@
 .favs {
   padding: 30px 0px;
+  color: #551A8B;
 }
 .favs__title {
   font-size: 30px;
@@ -17,8 +18,8 @@
 .favs__card {
   width: 200px;
   height: 200px;
-  border: solid 1px;
   border-radius: 10px;
+  box-shadow: 0px 0px 5px 2px rgb(159, 147, 147);
 }
 .favs .card__content {
   display: flex;
@@ -29,6 +30,7 @@
 .favs .card__content h2 {
   font-size: 20px;
   margin: 10px 0px;
+  color: #551A8B;
 }
 .favs .card__content img {
   width: 100px;

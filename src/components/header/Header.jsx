@@ -3,7 +3,7 @@ import logo from "../../assets/logoImg.svg"
 import "./header.css"
 import { useState } from "react";
 import Navbar from "../navbar/navbar";
-
+import { barbershops } from "../../fakeBase/base";
 
 const Header = () => {
 
@@ -15,7 +15,7 @@ const Header = () => {
                     <Link className="header__logo" to={"/"}>
                         <img src={logo} alt="" />
                     </Link>
-                    <Navbar/>
+                    <Navbar />
                     <div className="header__buttons">
                         <div className="header__search">
                             <input
@@ -30,6 +30,7 @@ const Header = () => {
                         </div>
                         <div className={search.length > 0 ? "searchResult active" : "searchResult"}>
                             <ul className="searchList">
+                                
                                 <Link className="searchList__link" >
                                     <li className="searchItem">
                                         <img src={logo} alt="" />

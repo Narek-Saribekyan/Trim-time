@@ -1,5 +1,6 @@
 import React from 'react';
 import * as ReactDOM from "react-dom/client";
+import Barbershop from './components/Barbershop/Barbershop';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
     path: "*",
     element: <App />,
   },
+  {
+    path: "/:name",
+    element: <Barbershop/>
+  }
 ]);
 
 
