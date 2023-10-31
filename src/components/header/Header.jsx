@@ -4,11 +4,11 @@ import "./header.css"
 import { useState } from "react";
 import Navbar from "../navbar/navbar";
 import { barbershops } from "../../fakeBase/base";
+import Search from "../search/Search";
 
 const Header = () => {
-
     const [search, setSearch] = useState("")
-    return (
+     return (
         <header className="header">
             <div className="container">
                 <div className="header__row">
@@ -28,29 +28,7 @@ const Header = () => {
                         <div className="header__button">
                             <button>Register</button>
                         </div>
-                        <div className={search.length > 0 ? "searchResult active" : "searchResult"}>
-                            <ul className="searchList">
-                                
-                                <Link className="searchList__link" >
-                                    <li className="searchItem">
-                                        <img src={logo} alt="" />
-                                        <h2>Barbershop name</h2>
-                                    </li>
-                                </Link>
-                                <Link className="searchList__link" >
-                                    <li className="searchItem">
-                                        <img src={logo} alt="" />
-                                        <h2>Barbershop name</h2>
-                                    </li>
-                                </Link>
-                                <Link className="searchList__link" >
-                                    <li className="searchItem">
-                                        <img src={logo} alt="" />
-                                        <h2>Barbershop name</h2>
-                                    </li>
-                                </Link>
-                            </ul>
-                        </div>
+                        <Search searchValue={search} setSearchValue={setSearch}/>
 
                     </div>
 

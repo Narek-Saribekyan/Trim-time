@@ -1,6 +1,8 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { barbershops } from '../../fakeBase/base';
+import "./barbershop.css"
 import Header from '../header/Header';
+import Card from '../BarberCard/Card';
 const Barberhop = () => {
     const { name } = useParams();
     const navigate = useNavigate();
@@ -12,20 +14,31 @@ const Barberhop = () => {
         navigate('/');
         return null;
     }
+
     return (
         <>
             <Header />
-            <h1>{selectedBarbershop.name}</h1>
-            {selectedBarbershop.barbers.map((e) => (
-                <div key={e.id}>
-                    {e.services.map((el) => (
-                        <div key={el.id}>
-                            {el.service_name}
+            <main className='main barbershop'>
+                <div className="container">
+                    <h1 className='barbershop__title'>{selectedBarbershop.name}</h1>
+                    <h2 className='barbershop__subtitle'>Choose a barber</h2>
+                    <div className="barbershop__barbers barbers">
+                        <div className="barbers__row">
+                            {selectedBarbershop.barbers.map((e) => (
+                                <Card barber={e}/>
+                                // <div className='barbers__column' key={e.id}>
+                                //     <img src={e.barberPhoto} alt="" />
+                                //     <h3 className='barbers__name'>{e.name}</h3>
+                                //     <div className='barbers__workingTime'>
+                                //         <span>{e.from} - {e.to}</span>
+                                //     </div>
+                                // </div>
+                            ))}
                         </div>
-                    ))}
+                    </div>
+                    {/* Display other details about the selected barbershop */}
                 </div>
-            ))}
-            {/* Display other details about the selected barbershop */}
+            </main>
         </>
     );
 };
