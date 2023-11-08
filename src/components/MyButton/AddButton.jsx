@@ -1,17 +1,12 @@
 import { useState, useRef } from "react";
 import "./addButtons.css";
 
-const AddButton = () => {
-  const [isActive, setIsActive] = useState(false);
+const AddButton = (props) => {
   const knopka = useRef();
 
-  const click = () => {
-    setIsActive((prevIsActive) => !prevIsActive);
-  };
-
   return (
-    <button ref={knopka} onClick={click} className={isActive ? 'button active' : 'button'}>
-      {isActive ? "remove" : "add"}
+    <button ref={knopka}   onClick={props.onClick} className={props.isActive ? 'button active' : 'button'}>
+      {props.isActive ? "remove" : "add"}
     </button>
   );
 };

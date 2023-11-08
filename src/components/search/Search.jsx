@@ -13,7 +13,7 @@ const Search = (props) => {
     );
 
     return (
-        <div className={props.searchValue.length > 0 ? "searchResult active" : "searchResult"}>
+        <div className={props.searchValue.length > 0 && filteredBarbershops.length>0 ? "searchResult active" : "searchResult"}>
             <ul className="searchList">
                 {filteredBarbershops.map((el) => (
                     <Link onClick={inpClear} to={`/${el.name}`} key={el.id} className="searchList__link">

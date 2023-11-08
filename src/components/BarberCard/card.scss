@@ -1,4 +1,4 @@
-.barbers{
+.barbers {
     &__column {
         width: 200px;
         padding: 12px 10px;
@@ -8,19 +8,40 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        img{
+
+        // &.active{
+        //     background-color: #2a4cbc;
+        //     scale: 0.9;
+        // }
+        
+
+        &:hover {
+            background-color: #a7a3a3;
+            scale: 0.97;
+            transition: .5s;
+            cursor: pointer;
+        }
+
+        img {
             max-width: 180px;
             height: 180px;
-            border-radius: 50%  ;
+            border-radius: 50%;
         }
     }
-    &__name{
+
+    &__name {
         font-size: 1.5rem;
         margin: 10px 0px 10px 0px;
     }
-    &__workingTime{
-        span{
+
+    &__workingTime {
+        span {
             font-size: 1rem;
         }
     }
+}
+
+.dark {
+    background: #0A142F ; 
+    color: white;
 }
