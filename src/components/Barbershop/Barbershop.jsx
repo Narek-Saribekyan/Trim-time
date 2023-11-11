@@ -7,6 +7,7 @@ import { useState } from 'react';
 import Services from '../Services/Services';
 import { useSelector,useDispatch } from 'react-redux';
 import { nullify } from '../../toolkitRedux/sliceToolkit';
+import Book from '../book/Book';
 const Barberhop = () => {
     const { name } = useParams();
     const navigate = useNavigate();
@@ -48,6 +49,9 @@ const Barberhop = () => {
                     <Services  barber={selectedBarbershop.barbers[barberID]} />
                 </div>
             </main>
+            <section>
+                <Book/>
+            </section>
         </>
     );
 };
