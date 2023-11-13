@@ -7,7 +7,6 @@ const Favorites = () => {
     const [barbershops, setBarbershops] = useState([]);
 
     useEffect(() => {
-        // Fetch data from your Laravel API endpoint
         fetch("http://127.0.0.1:8000/barbershops")
             .then(response => response.json())
             .then(data => setBarbershops(data))
