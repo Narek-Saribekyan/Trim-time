@@ -5,7 +5,10 @@ const Book = () => {
     console.log(value);
     return (
         <>
-            <Calendar onChange={onChange} value={value} />
+            <Calendar
+                onChange={onChange}
+                value={value}
+            />
             <h1>
                 {/* {value} */}
             </h1>
