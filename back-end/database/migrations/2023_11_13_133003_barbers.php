@@ -16,7 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('barbershop_id');
             $table->foreign('barbershop_id')->references('id')->on('barbershops')->onDelete('cascade');
             $table->string('name', 255)->nullable();
-            $table->string('time', 255)->nullable();
+            $table->string('from_to', 255)->nullable();
+            $table->string('avatar', 255)->nullable();
             $table->timestamps();
         });
     }
