@@ -1,40 +1,53 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import {useState, useEffect} from "react";
+import {Link} from "react-router-dom";
+import axios from "axios";
 import "./favorites.css";
-import logo from "./logo.jpg";
 
 const Favorites = () => {
     const [barbershops, setBarbershops] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/barbershops")
-            .then(response => response.json())
-            .then(data => setBarbershops(data))
-            .catch(error => console.error("Error fetching data:", error));
+        axios.get("http://127.0.0.1:8000/api/barbershops")
+            .then(response => {
+                setBarbershops(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+                setError(error);
+                setLoading(false);
+            });
     }, []);
+
 
     return (
         <section className="favs">
             <div className="container">
                 <h1 className="favs__title">Favorites</h1>
-                {barbershops.length > 0 ? (
+                {loading && <p>Loading...</p>}
+                {error && <p>Error: {error.message}</p>}
+                {Array.isArray(barbershops) && barbershops.length > 0 && !loading ? (
                     <div className="favs__row">
                         {barbershops.map((e) => (
                             <Link to={`/${e.name}`} key={e.id}>
                                 <div className="favs__card card">
                                     <div className="card__content">
                                         <h2>{e.name}</h2>
-                                        <img src={e.logo} alt="" />
-                                        <span>{e.from}-{e.to}</span>
+                                        <img src={e.logo} alt=""/>
+                                        <span>{e.time}</span>
                                     </div>
                                 </div>
                             </Link>
                         ))}
                     </div>
                 ) : (
-                    <div style={{ textAlign: "center", fontSize: "2.5rem" }} className="emptyFavs">
-                        <h1>You haven't chosen yet</h1>
-                    </div>
+                    !loading && (
+                        <div style={{textAlign: "center", fontSize: "2.5rem"}} className="emptyFavs">
+                            <h1>You haven't chosen yet</h1>
+                        </div>
+                    )
                 )}
             </div>
         </section>

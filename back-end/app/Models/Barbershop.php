@@ -9,7 +9,7 @@ class Barbershop extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'location', 'contact', 'logo', 'email', 'from-to'];
+    protected $fillable = ['name', 'location', 'contact', 'logo', 'email', 'time'];
 
     public function barbers()
     {
