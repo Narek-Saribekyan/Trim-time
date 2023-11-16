@@ -1,10 +1,10 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import "./services.css";
 import Card from '../BarberCard/Card';
 import Service from '../service/Service';
-import {useDispatch} from 'react-redux';
-import {nullify} from '../../toolkitRedux/sliceToolkit';
+import { useDispatch } from 'react-redux';
+import { nullify } from '../../toolkitRedux/sliceToolkit';
 
 const Services = (props) => {
     console.log(props)
@@ -23,15 +23,18 @@ const Services = (props) => {
             <div className='container'>
                 <div className="barber__row">
                     <div className="barber__column">
-                        <Card color="dark" barber={props.id}/>
+                        <Card color="dark" barber={props.barber} />
                     </div>
                     <div className="barber__column">
                         <div className='barber__menu menu'>
                             <div className="menu__content">
                                 {props.services && props.services.length > 0 ? (
                                     props.services.map((service, index) => (
-                                        <Service barber={props} service={service}
-                                                 onAddButtonClick={handleAddButtonClick}/>
+                                        <Service
+                                            barber={props.barber}
+                                            service={service}
+                                            onAddButtonClick={handleAddButtonClick}
+                                        />
                                     ))
                                 ) : (
                                     <p>No services available.</p>

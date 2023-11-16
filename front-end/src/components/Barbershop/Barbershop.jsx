@@ -1,22 +1,23 @@
-import {useParams, useNavigate} from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../header/Header';
 import Card from '../BarberCard/Card';
 import Services from '../Services/Services';
-import {useDispatch} from 'react-redux';
-import {nullify} from '../../toolkitRedux/sliceToolkit';
+import { useDispatch } from 'react-redux';
+import { nullify } from '../../toolkitRedux/sliceToolkit';
 import Book from '../book/Book';
+import "./barbershop.css"
 
 const Barberhop = () => {
-    const {id} = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const [barberId, setBarberId] = useState(0);
     const dispatch = useDispatch();
     const [selectedBarbershop, setSelectedBarbershop] = useState(null);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
     useEffect(() => {
         const apiUrl = `http://127.0.0.1:8000/api/barbershops/${id}`;
 
@@ -31,6 +32,11 @@ const Barberhop = () => {
                 setLoading(false);
             });
     }, [id]);
+    if (selectedBarbershop !== null) {
+        console.log(selectedBarbershop.barbers[1]);
+
+        // console.log(selectedBarbershop);
+    }
 
     if (loading) {
         return <p>Loading...</p>;
@@ -43,7 +49,7 @@ const Barberhop = () => {
 
     return (
         <>
-            <Header/>
+            <Header />
             <main className='main barbershop'>
                 <div className="container">
                     <h1 className='barbershop__title'>{selectedBarbershop.name}</h1>
@@ -51,22 +57,22 @@ const Barberhop = () => {
                     <div className="barbershop__barbers barbers">
                         <div className="barbers__row">
                             {selectedBarbershop.barbers.length > 0 ? (
-                                selectedBarbershop.barbers.map((barber) => (
-                                    <Card key={barber.id} onClick={() => {
-                                        setBarberId(barber)
+                                selectedBarbershop.barbers.map((barber, idx) => (
+                                    <Card key={barber.id} barber={barber} onClick={() => {
+                                        setBarberId(idx)
                                         barber = (barber.id)
-                                    }}/>
+                                    }} />
                                 ))
                             ) : (
                                 <p>No barbers available.</p>
                             )}
                         </div>
                     </div>
-                    <Services barber={selectedBarbershop.barbers[barberId]}/>
+                    {selectedBarbershop !== null ? (<Services barber={selectedBarbershop.barbers[barberId]} />) : null}
                 </div>
             </main>
             <section>
-                <Book/>
+                <Book />
             </section>
         </>
     );
