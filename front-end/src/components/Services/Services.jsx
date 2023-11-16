@@ -1,38 +1,41 @@
 import React from 'react';
-import "./services.css"
-import Menu from "../../assets/Rectangle.png"
+import {useSelector} from 'react-redux';
+import "./services.css";
 import Card from '../BarberCard/Card';
-import { barbershops } from '../../fakeBase/base';
 import Service from '../service/Service';
-import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector';
-import { useDispatch } from 'react-redux';
-import { nullify } from '../../toolkitRedux/sliceToolkit';
+import {useDispatch} from 'react-redux';
+import {nullify} from '../../toolkitRedux/sliceToolkit';
+
 const Services = (props) => {
-    const totalSumm=useSelector(state=>state.toolkit.summ)
-    const totalTime=useSelector(state=>state.toolkit.time)
+    console.log(props)
+    const totalSumm = useSelector(state => state.toolkit.summ)
+    const totalTime = useSelector(state => state.toolkit.time)
 
     const handleAddButtonClick = (price) => {
         // Do something with the price, e.g., add it to a shopping cart
         console.log(`Service added with price: ${price}`);
-        
     };
 
-    const dispatch=useDispatch( )
+    const dispatch = useDispatch()
 
     return (
-
         <div className='barber'>
             <div className='container'>
                 <div className="barber__row">
                     <div className="barber__column">
-                        <Card color="dark" barber={props.barber} />
+                        <Card color="dark" barber={props.id}/>
                     </div>
                     <div className="barber__column">
                         <div className='barber__menu menu'>
                             <div className="menu__content">
-                                {props.barber.services.map((service, index) => (
-                                    <Service barber={props.barber} service={service} onAddButtonClick={handleAddButtonClick}/>
-                                ))}
+                                {props.services && props.services.length > 0 ? (
+                                    props.services.map((service, index) => (
+                                        <Service barber={props} service={service}
+                                                 onAddButtonClick={handleAddButtonClick}/>
+                                    ))
+                                ) : (
+                                    <p>No services available.</p>
+                                )}
                             </div>
                             <div className="menu__footer">
                                 <div className="menu__row">
@@ -50,4 +53,5 @@ const Services = (props) => {
         </div>
     );
 };
+
 export default Services;

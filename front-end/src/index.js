@@ -8,6 +8,7 @@ import {
 import { store } from './toolkitRedux';
 import { Provider } from 'react-redux';
 import App from './App';
+import Page404 from "./components/Page404/page404";
 
 const router = createBrowserRouter([
   {
@@ -15,12 +16,12 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "*",
-    element: <App />,
+    path: "/barbershop/:id",
+    element: <Barbershop />
   },
   {
-    path: "/:name",
-    element: <Barbershop />
+    path: "*",
+    element: <Page404 />,
   }
 ]);
 
