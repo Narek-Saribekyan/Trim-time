@@ -27,7 +27,7 @@ const Service = (props) => {
     return (
         <div className='service'>
             <div className="service__name">
-                <h2>{props.service.service_name}</h2>
+                <h2>{props.service.name}</h2>
             </div>
             <div className="service__info">
                 <span>

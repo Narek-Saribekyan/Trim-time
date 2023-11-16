@@ -1,22 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import "./services.css";
 import Card from '../BarberCard/Card';
 import Service from '../service/Service';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import { nullify } from '../../toolkitRedux/sliceToolkit';
 
 const Services = (props) => {
     console.log(props)
     const totalSumm = useSelector(state => state.toolkit.summ)
     const totalTime = useSelector(state => state.toolkit.time)
-
+    const [services,setServices]=useState([{name:"milirovanie",price:1000,longevity:10}])
     const handleAddButtonClick = (price) => {
         // Do something with the price, e.g., add it to a shopping cart
         console.log(`Service added with price: ${price}`);
     };
 
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        const url = ""
+
+        axios.get(url)
+            .then(response => {
+                setServices(response.data)
+            })
+            .catch(error => {
+                console.error("Error fetching barbershop data:", error);
+            });
+    }, [])
 
     return (
         <div className='barber'>
@@ -28,8 +41,8 @@ const Services = (props) => {
                     <div className="barber__column">
                         <div className='barber__menu menu'>
                             <div className="menu__content">
-                                {props.services && props.services.length > 0 ? (
-                                    props.services.map((service, index) => (
+                                {services && services.length > 0 ? (
+                                    services.map((service, index) => (
                                         <Service
                                             barber={props.barber}
                                             service={service}

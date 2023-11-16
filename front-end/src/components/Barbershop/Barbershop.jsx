@@ -32,11 +32,6 @@ const Barberhop = () => {
                 setLoading(false);
             });
     }, [id]);
-    if (selectedBarbershop !== null) {
-        console.log(selectedBarbershop.barbers[1]);
-
-        // console.log(selectedBarbershop);
-    }
 
     if (loading) {
         return <p>Loading...</p>;
