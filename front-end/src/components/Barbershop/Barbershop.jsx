@@ -23,6 +23,7 @@ const Barberhop = () => {
 
         axios.get(apiUrl)
             .then(response => {
+                console.log(response.data)
                 setSelectedBarbershop(response.data);
                 setLoading(false);
             })

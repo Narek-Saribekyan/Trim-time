@@ -17,6 +17,10 @@ Route::get('/user', function (Request $request) {
 Route::apiResource('barbershops', BarbershopController::class);
 Route::get('/barbershop/{id}', [BarbershopController::class, 'show']); // Use the 'show' method for a single barbershop
 Route::get('/barbershops', [BarbershopController::class, 'all']); // Use the 'all' method for all barbershops
+
+Route::get('/barbershop/{id}/services', [BarbershopController::class, 'services']); // Get services for a specific barbershop
+Route::post('/barbershop/{id}/services', [BarbershopController::class, 'addService']); // Add a service for a specific barbershop
+
 // });
 
 // If you want to add more routes without authentication, you can add them here

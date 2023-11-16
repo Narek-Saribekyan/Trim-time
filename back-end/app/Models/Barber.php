@@ -8,6 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Barber extends Model
 {
     use HasFactory;
-
     protected $fillable = ['barbershop_id', 'name', 'from_to', 'avatar'];
 }
