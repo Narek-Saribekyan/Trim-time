@@ -18,8 +18,10 @@ const Barberhop = () => {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+
     useEffect(() => {
-        const apiUrl = `http://127.0.0.1:8000/api/barbershops/${id}`;
+        const apiUrl = `http://127.0.0.1:8000/api/barbershop/${id}`;
 
         axios.get(apiUrl)
             .then(response => {
@@ -34,6 +36,7 @@ const Barberhop = () => {
             });
     }, [id]);
 
+
     if (loading) {
         return <p>Loading...</p>;
     }
@@ -42,6 +45,14 @@ const Barberhop = () => {
         navigate('/');
         return <p>Error loading barbershop data.</p>;
     }
+
+
+    // console.log(selectedBarbershop.services)
+    const selectedBarbersServices=selectedBarbershop.services.filter((e)=>{
+        return e.barber_id=== parseInt(barberId)
+    })
+
+
 
     return (
         <>
@@ -53,18 +64,18 @@ const Barberhop = () => {
                     <div className="barbershop__barbers barbers">
                         <div className="barbers__row">
                             {selectedBarbershop.barbers.length > 0 ? (
-                                selectedBarbershop.barbers.map((barber, idx) => (
+                                selectedBarbershop.barbers.map((barber,idx) => (
                                     <Card key={barber.id} barber={barber} onClick={() => {
                                         setBarberId(idx)
                                         barber = (barber.id)
                                     }} />
                                 ))
                             ) : (
-                                <p>No barbers available.</p>
+                                <p style={{fontSize:"3rem"}}>No barbers available.</p>
                             )}
                         </div>
                     </div>
-                    {selectedBarbershop !== null ? (<Services barber={selectedBarbershop.barbers[barberId]} />) : null}
+                    {selectedBarbershop !== null && selectedBarbershop.barbers.length > 0 ? (<Services services={selectedBarbersServices} barber={selectedBarbershop.barbers[barberId]} />) : null}
                 </div>
             </main>
             <section>
