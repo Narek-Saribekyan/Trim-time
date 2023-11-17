@@ -11,12 +11,12 @@ const Service = (props) => {
     // console.log(props.barber);
 
     
-    // const memorizedBarber=useMemo(() => props.barber, [props.barber]);
-    // useEffect(()=>{
-    //     setIsActive(false)
-    //     console.log("barber has changed");
-    //     dispatch(nullify())
-    // },[memorizedBarber])
+    const memorizedBarber=useMemo(() => props.barber, [props.barber]);
+    useEffect(()=>{
+        setIsActive(false)
+        console.log("barber has changed");
+        dispatch(nullify())
+    },[memorizedBarber])
     
     const handleAddButtonClick = () => {
         console.log("Before state update:", isActive);
