@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 import Header from '../header/Header';
 import Card from '../BarberCard/Card';
 import Services from '../Services/Services';
-import { useDispatch } from 'react-redux';
-import { nullify } from '../../toolkitRedux/sliceToolkit';
 import Book from '../book/Book';
 import "./barbershop.css"
 
@@ -13,7 +11,6 @@ const Barberhop = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [barberId, setBarberId] = useState(0);
-    const dispatch = useDispatch();
     const [selectedBarbershop, setSelectedBarbershop] = useState(null);
 
     const [loading, setLoading] = useState(true);
@@ -25,7 +22,6 @@ const Barberhop = () => {
 
         axios.get(apiUrl)
             .then(response => {
-                console.log(response.data)
                 setSelectedBarbershop(response.data);
                 setLoading(false);
             })
@@ -79,7 +75,7 @@ const Barberhop = () => {
                 </div>
             </main>
             <section>
-                <Book />
+                {/* <Book /> */}
             </section>
         </>
     );

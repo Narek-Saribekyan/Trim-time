@@ -3,25 +3,21 @@ import { useSelector } from 'react-redux';
 import "./services.css";
 import Card from '../BarberCard/Card';
 import Service from '../service/Service';
-import { useDispatch } from 'react-redux';
-import { nullify } from '../../toolkitRedux/sliceToolkit';
 
 const Services = (props) => {
 
-    console.log(props)
-    const totalSumm = useSelector(state => state.toolkit.summ)
-    const totalTime = useSelector(state => state.toolkit.time)
+    const totalSumm = parseInt(useSelector(state => state.toolkit.summ))
+    const totalTime = parseInt(useSelector(state => state.toolkit.time))
     const [services, setServices] = useState([{ name: "milirovanie", price: 1000, longevity: 10 }])
     const handleAddButtonClick = (price) => {
         // Do something with the price, e.g., add it to a shopping cart
         console.log(`Service added with price: ${price}`);
     };
 
-    const dispatch = useDispatch()
 
     useEffect(() => {
         setServices(props.services)
-        console.log(props.services);
+        console.log("I have worked");
     }, [props.services])
 
     return (

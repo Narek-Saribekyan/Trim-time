@@ -1,7 +1,6 @@
 import "./card.css"
 
 const Card = (props) => {
-    console.log(props);
     return (
         <div className={props.color === "dark" ? 'barbers__column dark' : 'barbers__column'} onClick={props.onClick}
              key={props.barber.id}>
