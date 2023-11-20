@@ -10,6 +10,7 @@ class Barbershop extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'location', 'contact', 'logo', 'email', 'from_to'];
+    protected $hidden = ['password', 'remember_token'];
 
     public function barbers()
     {
@@ -19,5 +20,10 @@ class Barbershop extends Model
     public function services()
     {
         return $this->hasMany(Service::class);
+    }
+
+    public function scopeSearch($query, $searchTerm)
+    {
+        return $query->where('name', 'like', '%' . $searchTerm . '%');
     }
 }

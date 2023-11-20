@@ -1,24 +1,33 @@
-import React from 'react';
-import { barbershops } from '../../fakeBase/base';
 import "./search.css"
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+
 const Search = (props) => {
+    const [searchResults, setSearchResults] = useState([]);
+
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:8000/api/search?search=${props.searchValue}`)
+            .then(response => {
+                setSearchResults(response.data.barbershops);
+            })
+            .catch(error => {
+                console.error("Error fetching search results:", error);
+            });
+    }, [props.searchValue]);
+
     const inpClear = () => {
         props.setSearchValue("");
-    }
-
-    const filteredBarbershops = barbershops.filter(el =>
-        el.name.toLowerCase().includes(props.searchValue.toLowerCase())
-    );
+    };
 
     return (
-        <div className={props.searchValue.length > 0 && filteredBarbershops.length>0 ? "searchResult active" : "searchResult"}>
+        <div className={props.searchValue.length > 0 && searchResults.length > 0 ? "searchResult active" : "searchResult"}>
             <ul className="searchList">
-                {filteredBarbershops.map((el) => (
+                {searchResults.map((el) => (
                     <Link onClick={inpClear} to={`/${el.name}`} key={el.id} className="searchList__link">
                         <li className="searchItem">
-                            <img src={el.barbershopLogo} alt="" />
+                            <img src={el.logo} alt="" />
                             <h2>{el.name}</h2>
                         </li>
                     </Link>
@@ -29,4 +38,3 @@ const Search = (props) => {
 };
 
 export default Search;
-

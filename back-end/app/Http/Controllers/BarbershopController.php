@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Barbershop;
-use App\Models\Barber;
 use App\Models\Service;
 
 class BarbershopController extends Controller
@@ -25,13 +24,31 @@ class BarbershopController extends Controller
         return response()->json(['barbershop' => $barbershop, 'barbers' => $barbers, 'services' => $services]);
     }
 
-    public function getServices($id)
+    public function addBarbershop(Request $request)
     {
-        $barbershop = Barbershop::findOrFail($id);
-        $barbers = $barbershop->barbers()->get();
-        $services = Service::whereIn('barber_id', $barbers->pluck('id'))->get();
+        $request->validate([
+            'name' => 'required|string',
+            'login' => 'required|string|unique:barbershops',
+            'email' => 'required|email|unique:barbershops',
+            'contact' => 'required|string', // Make it required
+            'password' => 'required|string',
+            'location' => 'nullable|string',
+            'logo' => 'nullable|string',
+            'from_to' => 'nullable|string',
+        ]);
 
-        return response()->json(['services' => $services]);
+        $barbershop = Barbershop::create([
+            'name' => $request->input('name'),
+            'login' => $request->input('login'),
+            'email' => $request->input('email'),
+            'contact' => $request->input('contact'),
+            'password' => bcrypt($request->input('password')),
+            'location' => $request->input('location'),
+            'logo' => $request->input('logo', '/defaultLogo/defaultLogo.png'), // Default logo path
+            'from_to' => $request->input('from_to'),
+        ]);
+
+        return response()->json(['message' => 'Barbershop added successfully', 'barbershop' => $barbershop]);
     }
 
     public function addBarber(Request $request, $id)
@@ -43,7 +60,7 @@ class BarbershopController extends Controller
             'from-to' => 'required|string',
         ]);
 
-        $avatar = $request->input('avatar', 'public/Default_logo/barbershop_default_logo.png');
+        $avatar = $request->input('avatar', '/defaultLogo/defaultLogo.png');
 
         $barber = $barbershop->barbers()->create([
             'name' => $request->input('name'),
