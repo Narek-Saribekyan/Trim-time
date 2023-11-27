@@ -1,55 +1,54 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import "./service.css"
-import AddButton from '../MyButton/AddButton';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { addService, removeService, change, nullify } from "../../toolkitRedux/sliceToolkit";
+import { addService, removeService, nullify } from '../../toolkitRedux/sliceToolkit';
+import './service.css';
 
 const Service = (props) => {
+  const dispatch = useDispatch();
+  const knopka = useRef();
 
-    const dispatch = useDispatch()
-    const [isActive, setIsActive] = useState(false);
-    // console.log(props.barber);
+  const handleCheckboxChange = () => {
+    const money = props.service.price;
+    const time = props.service.longevity;
 
-    const memorizedBarber = useMemo(() => props.barber, [props.barber]);
-    useEffect(() => {
-        setIsActive(false)
-        console.log("barber has changed");
-        dispatch(nullify())
-    }, [memorizedBarber])
+    if (knopka.current.checked) {
+      dispatch(addService({ money, time }));
+    } else {
+      dispatch(removeService({ money, time }));
+    }
+  };
 
-    const handleAddButtonClick = () => {
-        console.log("Before state update:", isActive);
-        setIsActive(prev=>!prev)
-        console.log("After state update:", isActive);
-        const money = props.service.price;
-        const time = props.service.longevity;
+  // Assuming props.barber is the value that you're using in useMemo
+//   const memorizedBarber = useMemo(() => props.barber, [props.barber]);
 
-        if (!isActive) {
-            dispatch(addService({ money, time }));
-        } else {
-            dispatch(removeService({ money, time }));
-        }
-    };
+//   useEffect(() => {
+//     console.log("Effect is running. Barber:", props.barber);
+//     dispatch(nullify());
+//   }, []);
+  
 
-
-
-    return (
-        <div className='service'>
-            <div className="service__name">
-                <h2>{props.service.name}</h2>
-
-            </div>
-            <div className="service__info">
-                <span>
-                    <h3>{props.service.price} դր.</h3>
-                    <h3>{props.service.longevity} ր.</h3>
-                </span>
-                {/* <AddButton isActive={isActive} onClick={handleAddButtonClick} /> */}
-                <button onClick={handleAddButtonClick} className={isActive ? 'button active' : 'button'}>
-                    {isActive ? "remove" : "add"}
-                </button>
-            </div>
-        </div>
-    );
+  return (
+    <div className='service'>
+      <div className="service__name">
+        <h2>{props.service.name}</h2>
+      </div>
+      <div className="service__info">
+        <span>
+          <h3>{props.service.price} դր.</h3>
+          <h3>{props.service.longevity} ր.</h3>
+        </span>
+        <label>
+          <input
+            ref={knopka}
+            type="checkbox"
+            onChange={handleCheckboxChange}
+            className='checkbox'
+          />
+          Remove
+        </label>
+      </div>
+    </div>
+  );
 };
+
 export default Service;

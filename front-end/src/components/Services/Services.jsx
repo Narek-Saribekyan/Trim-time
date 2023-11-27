@@ -4,22 +4,17 @@ import "./services.css";
 import Card from '../BarberCard/Card';
 import Service from '../service/Service';
 
-const Services = (props) => {
 
-    const totalSumm = parseInt(useSelector(state => state.toolkit.summ))
-    const totalTime = parseInt(useSelector(state => state.toolkit.time))
-    const [services, setServices] = useState([{ name: "milirovanie", price: 1000, longevity: 10 }])
-    const handleAddButtonClick = (price) => {
-        // Do something with the price, e.g., add it to a shopping cart
-        console.log(`Service added with price: ${price}`);
-    };
 
+const Services = React.memo((props) => {
+    const totalSumm = parseInt(useSelector(state => state.toolkit.summ));
+    const totalTime = parseInt(useSelector(state => state.toolkit.time));
+    const [services, setServices] = useState([]);
 
     useEffect(() => {
-        setServices(props.services)
+        setServices(props.services);
         console.log("I have worked");
-    }, [props.services])
-
+    }, [props.services]);
     return (
         <div className='barber'>
             <div className='container'>
@@ -31,12 +26,12 @@ const Services = (props) => {
                         <div className='barber__menu menu'>
                             <div className="menu__content">
                                 {services && services.length > 0 ? (
-                                    services.map((service, index) => (
+                                    services.map((service) => (
                                         <Service
-                                            key={Math.random()}
+                                            key={service.id}
                                             barber={props.barber}
                                             service={service}
-                                            onAddButtonClick={handleAddButtonClick}
+                                        // onAddButtonClick={handleAddButtonClick}
                                         />
                                     ))
                                 ) : (
@@ -58,6 +53,6 @@ const Services = (props) => {
             </div>
         </div>
     );
-};
+});
 
 export default Services;
