@@ -1,31 +1,25 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { addService, removeService, nullify } from '../../toolkitRedux/sliceToolkit';
 import './service.css';
-
+import { Checkmark } from 'react-checkmark'
+import check from "../../assets/check.svg"
 const Service = (props) => {
   const dispatch = useDispatch();
   const knopka = useRef();
 
-  const handleCheckboxChange = () => {
+  const handleAddButtonClick = () => {
     const money = props.service.price;
     const time = props.service.longevity;
 
-    if (knopka.current.checked) {
+    knopka.current.classList.toggle('active');
+
+    if (knopka.current.classList.contains('active')) {
       dispatch(addService({ money, time }));
     } else {
       dispatch(removeService({ money, time }));
     }
   };
-
-  // Assuming props.barber is the value that you're using in useMemo
-//   const memorizedBarber = useMemo(() => props.barber, [props.barber]);
-
-//   useEffect(() => {
-//     console.log("Effect is running. Barber:", props.barber);
-//     dispatch(nullify());
-//   }, []);
-  
 
   return (
     <div className='service'>
@@ -37,15 +31,9 @@ const Service = (props) => {
           <h3>{props.service.price} դր.</h3>
           <h3>{props.service.longevity} ր.</h3>
         </span>
-        <label>
-          <input
-            ref={knopka}
-            type="checkbox"
-            onChange={handleCheckboxChange}
-            className='checkbox'
-          />
-          Remove
-        </label>
+        <button ref={knopka} onClick={handleAddButtonClick} className='button'>
+            <img src={check} alt="" />
+       </button>
       </div>
     </div>
   );
