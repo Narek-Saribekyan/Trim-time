@@ -61,8 +61,10 @@ const Barberhop = () => {
                             {selectedBarbershop.barbers.length > 0 ? (
                                 selectedBarbershop.barbers.map((barber, idx) => (
                                     <Card key={barber.id} barber={barber} onClick={() => {
-                                        setBarberId(idx)
-                                        barber = (barber.id)
+                                        if(barberId!==idx){
+                                            setBarberId(idx)
+                                            barber = (barber.id)
+                                        }
                                     }}/>
                                 ))
                             ) : (
