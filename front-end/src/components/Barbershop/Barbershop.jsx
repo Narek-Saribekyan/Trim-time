@@ -34,7 +34,7 @@ const Barberhop = () => {
 
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <p style={{textAlign:"center", fontSize:"3rem"}}>Loading...</p>;
     }
 
     if (error || !selectedBarbershop || !selectedBarbershop.barbers) {

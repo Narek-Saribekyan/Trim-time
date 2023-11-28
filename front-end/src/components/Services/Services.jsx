@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import "./services.css";
 import Card from '../BarberCard/Card';
 import Service from '../service/Service';
+import { nullify } from '../../toolkitRedux/sliceToolkit';
 
 
 
@@ -10,10 +11,11 @@ const Services = React.memo((props) => {
     const totalSumm = parseInt(useSelector(state => state.toolkit.summ));
     const totalTime = parseInt(useSelector(state => state.toolkit.time));
     const [services, setServices] = useState([]);
-
+    const dispatch=useDispatch()
     useEffect(() => {
         setServices(props.services);
         console.log("I have worked");
+        dispatch(nullify())
     }, [props.services]);
     return (
         <div className='barber'>
