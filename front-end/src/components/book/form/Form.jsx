@@ -4,6 +4,10 @@ const Form = () => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [phone, setPhone] = useState("")
+
+    const handleClick=()=>{
+        
+    }
     return (
         <form className='form' onSubmit={(e) => e.preventDefault()} action="">
             <h1 className='form__title'>Fill the form</h1>
@@ -16,7 +20,7 @@ const Form = () => {
             <div className="form__fillPhone form__inp">
                 <input className='form__inpPhone' value={phone} onChange={(e) => setPhone(e.target.value)} type="phone" placeholder='Phone number' />
             </div>
-            <button className='form__button'>Book</button>
+            <button onClick={handleClick} className='form__button'>Book</button>
         </form>
     );
 };
