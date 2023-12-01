@@ -1,17 +1,16 @@
 import Calendar from "react-calendar"
 import { useState } from "react";
+import Form from "./form/Form";
 const Book = () => {
     const [value, onChange] = useState(new Date())
     console.log(value);
     return (
         <>
-            <Calendar
+            {/* <Calendar
                 onChange={onChange}
                 value={value}
-            />
-            <h1>
-                {/* {value} */}
-            </h1>
+            /> */}
+            <Form />
         </>
     );
 };

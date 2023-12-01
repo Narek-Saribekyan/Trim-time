@@ -78,7 +78,7 @@ const Barberhop = () => {
                 </div>
             </main>
             <section>
-                {/* <Book /> */}
+                <Book />
             </section>
         </>
     );
