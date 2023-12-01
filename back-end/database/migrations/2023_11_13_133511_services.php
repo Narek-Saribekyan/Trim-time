@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreign('barber_id')->references('id')->on('barbers')->onDelete('cascade');
             $table->string('name', 255);
             $table->integer('price');
-            $table->string('longevity', 255);
+            $table->integer('longevity');
             $table->timestamps();
         });
     }

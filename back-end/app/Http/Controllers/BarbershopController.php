@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Barbershop;
 use App\Models\Service;
+use App\Models\User; // Add User model
 
 class BarbershopController extends Controller
 {
@@ -24,31 +25,52 @@ class BarbershopController extends Controller
         return response()->json(['barbershop' => $barbershop, 'barbers' => $barbers, 'services' => $services]);
     }
 
-    public function addBarbershop(Request $request)
+    public function register(Request $request)
     {
         $request->validate([
+            'type' => 'required|in:barbershop,user', // Add type validation
             'name' => 'required|string',
-            'login' => 'required|string|unique:barbershops',
-            'email' => 'required|email|unique:barbershops',
-            'contact' => 'required|string', // Make it required
+            'login' => 'required|string|unique:barbershops,users', // Validate uniqueness across both tables
+            'email' => 'required|email|unique:barbershops,users',
+            'contact' => 'required|string',
             'password' => 'required|string',
             'location' => 'nullable|string',
             'logo' => 'nullable|string',
             'from_to' => 'nullable|string',
         ]);
 
-        $barbershop = Barbershop::create([
-            'name' => $request->input('name'),
-            'login' => $request->input('login'),
-            'email' => $request->input('email'),
-            'contact' => $request->input('contact'),
-            'password' => bcrypt($request->input('password')),
-            'location' => $request->input('location'),
-            'logo' => $request->input('logo', '/defaultLogo/defaultLogo.png'), // Default logo path
-            'from_to' => $request->input('from_to'),
-        ]);
+        // Determine the type of registration
+        $type = $request->input('type');
 
-        return response()->json(['message' => 'Barbershop added successfully', 'barbershop' => $barbershop]);
+        if ($type === 'barbershop') {
+            // Barbershop registration
+            $barbershop = Barbershop::create([
+                'name' => $request->input('name'),
+                'login' => $request->input('login'),
+                'email' => $request->input('email'),
+                'contact' => $request->input('contact'),
+                'password' => bcrypt($request->input('password')),
+                'location' => $request->input('location'),
+                'logo' => $request->input('logo', '/defaultLogo/defaultLogo.png'),
+                'from_to' => $request->input('from_to'),
+            ]);
+
+            return response()->json(['message' => 'Barbershop registered successfully', 'barbershop' => $barbershop]);
+        } elseif ($type === 'user') {
+            // User registration
+            $user = User::create([
+                'name' => $request->input('name'),
+                'login' => $request->input('login'),
+                'email' => $request->input('email'),
+                'contact' => $request->input('contact'),
+                'password' => bcrypt($request->input('password')),
+                'avatar' => $request->input('avatar', '/defaultAvatar/defaultAvatar.png'),
+            ]);
+
+            return response()->json(['message' => 'User registered successfully', 'user' => $user]);
+        } else {
+            return response()->json(['message' => 'Invalid registration type'], 400);
+        }
     }
 
     public function addBarber(Request $request, $id)

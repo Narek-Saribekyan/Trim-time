@@ -26,7 +26,9 @@ const Header = () => {
                             />
                         </div>
                         <div className="header__button">
-                            <button>Register</button>
+                            <Link to={'/user-register'}>
+                                <button>Register</button>
+                            </Link>
                         </div>
                         <Search searchValue={search} setSearchValue={setSearch}/>
 

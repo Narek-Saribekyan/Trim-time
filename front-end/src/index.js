@@ -1,35 +1,39 @@
-import React from 'react';
-import * as ReactDOM from "react-dom/client";
-import Barbershop from './components/Barbershop/Barbershop';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import { store } from './toolkitRedux';
-import { Provider } from 'react-redux';
+import ReactDOM from 'react-dom';
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {store} from './toolkitRedux';
+import {Provider} from 'react-redux';
 import App from './App';
-import Page404 from "./components/Page404/page404";
+import Page404 from './components/Page404/page404';
+import Barbershop from './components/Barbershop/Barbershop';
+import UserRegister from './components/form/register/UserRegister';
+import Login from './components/form/login/Login';
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/barbershop/:id",
-    element: <Barbershop />
-  },
-  {
-    path: "*",
-    element: <Page404 />,
-  }
+    {
+        path: '/',
+        element: <App/>,
+    },
+    {
+        path: '/barbershop/:id',
+        element: <Barbershop/>,
+    },
+    {
+        path: '/user-register',
+        element: <UserRegister/>,
+    },
+    {
+        path: '/login',
+        element: <Login/>,
+    },
+    {
+        path: '*',
+        element: <Page404/>,
+    },
 ]);
 
-
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
-    <RouterProvider router={router} >
-
-    </RouterProvider>
-  </Provider>
+// Render the app with the router and Redux provider
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <Provider store={store}>
+        <RouterProvider router={router}/>
+    </Provider>
 );

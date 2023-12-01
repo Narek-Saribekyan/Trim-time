@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { addService, removeService, nullify } from '../../toolkitRedux/sliceToolkit';
 import './service.css';
-import { Checkmark } from 'react-checkmark'
 import check from "../../assets/check.svg"
 const Service = (props) => {
   const dispatch = useDispatch();

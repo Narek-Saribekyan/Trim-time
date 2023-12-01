@@ -1,18 +1,45 @@
-// Login.js
 import React, { useState } from 'react';
 
-const Login = () => {
-    const [username, setUsername] = useState('');
+const UserLogin = () => {
+    const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        // Add your login logic here (e.g., make API request)
-        console.log('Logging in user:', username);
-        console.log('Password:', password);
+
+        // Validate inputs
+        if (!login || !password) {
+            console.error('Login and password are required.');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/loginUser', {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    login: login,
+                    password: password,
+                }),
+            });
+
+            if (response.ok) {
+                console.log('User logged in successfully!');
+                // Perform any additional actions after successful login
+                // For example, you can redirect to another page
+                window.location.href = '/';
+            } else {
+                console.error('Failed to log in.');
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+        }
 
         // Clear input fields after login
-        setUsername('');
+        setLogin('');
         setPassword('');
     };
 
@@ -21,8 +48,8 @@ const Login = () => {
             <h2>Login</h2>
             <form onSubmit={handleLogin}>
                 <label style={labelStyle}>
-                    Username:
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} style={inputStyle} />
+                    Login:
+                    <input type="text" value={login} onChange={(e) => setLogin(e.target.value)} style={inputStyle} />
                 </label>
                 <br />
                 <label style={labelStyle}>
@@ -36,13 +63,11 @@ const Login = () => {
     );
 };
 
+// Styling styles
 const authContainerStyle = {
-    width: "100vw",
-    height:"100vh",
     position: 'absolute',
     top: '50%',
     left: '50%',
-    zIndex: "100",
     transform: 'translate(-50%, -50%)',
     padding: '20px',
     border: '1px solid #ccc',
@@ -71,4 +96,4 @@ const buttonStyle = {
     cursor: 'pointer',
 };
 
-export default Login;
+export default UserLogin;
