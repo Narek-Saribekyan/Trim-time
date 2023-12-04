@@ -1,14 +1,26 @@
 import { Link } from "react-router-dom"
 import logo from "../../assets/logoImg.svg"
 import "./header.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../navbar/navbar";
 import { barbershops } from "../../fakeBase/base";
 import Search from "../search/Search";
+import UserLogin from "../form/login/Login";
 
 const Header = () => {
     const [search, setSearch] = useState("")
-     return (
+    const [isAuth, setIsAuth] = useState(true)
+
+    useEffect(() => {
+        const storedAuthStatus = localStorage.getItem('isAuth');
+        if (storedAuthStatus === 'true') {
+            setIsAuth(true);
+        } else {
+            setIsAuth(false);
+        }
+    }, [])
+
+    return (
         <header className="header">
             <div className="container">
                 <div className="header__row">
@@ -25,12 +37,21 @@ const Header = () => {
                                 onChange={(e) => setSearch(e.target.value)}
                             />
                         </div>
-                        <div className="header__button">
-                            <Link to={'/user-register'}>
-                                <button>Register</button>
-                            </Link>
-                        </div>
-                        <Search searchValue={search} setSearchValue={setSearch}/>
+                        {!isAuth
+                            ? <div className="header__button">
+                                <button>Login</button>
+                                <UserLogin/>
+                            </div>
+
+                            : <div className="header__user">
+                                <div className="user__logo">
+                                    <img src="" alt="" />
+                                </div>
+                                <h2>User name</h2>
+                            </div>
+                        }
+
+                        <Search searchValue={search} setSearchValue={setSearch} />
 
                     </div>
 
