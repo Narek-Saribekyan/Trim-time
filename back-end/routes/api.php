@@ -20,10 +20,21 @@ Route::post('/barbershop/{id}/services', [BarbershopController::class, 'addServi
 Route::post('/loginUser', [UserController::class, 'loginUser']);
 Route::post('/registerUser', [UserController::class, 'registerUser']);
 
+
+//Route::get('/login', function () {
+//    // Handle login logic or return a response
+//})->name('login');
+//
+//Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+
 // Authenticated routes (protected by Sanctum)
 // You might want to move these routes inside a middleware group for Sanctum authentication
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+});
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/user-info', [UserController::class, 'getUserInfo']);
+    Route::post('/user-info', [UserController::class, 'getUserInfo']);
 });

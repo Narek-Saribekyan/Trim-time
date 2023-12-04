@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreign('barbershop_id')->references('id')->on('barbershops')->onDelete('cascade');
             $table->string('name', 255);
             $table->string('from_to', 255)->nullable();
-            $table->string('avatar', 255)->default('/defaultLogo/defaultLogo.png');
+            $table->string('avatar')->default('/defaultLogo/defaultLogo.png');
             $table->timestamps();
         });
     }

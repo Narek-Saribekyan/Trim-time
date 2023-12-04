@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 const UserLogin = () => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const [user, setUser] = useState(null);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -28,9 +29,22 @@ const UserLogin = () => {
 
             if (response.ok) {
                 console.log('User logged in successfully!');
-                // Perform any additional actions after successful login
-                // For example, you can redirect to another page
-                window.location.href = '/';
+
+                // Fetch user information after successful login using GET method
+                const userInfoResponse = await fetch('http://127.0.0.1:8000/api/user-info', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+                        'Content-Type': 'application/json',  // Add this line
+                    },
+                });
+
+                if (userInfoResponse.ok) {
+                    const userInfo = await userInfoResponse.json();
+                    setUser(userInfo);
+                } else {
+                    console.error('Failed to fetch user information.');
+                }
             } else {
                 console.error('Failed to log in.');
             }
@@ -49,14 +63,15 @@ const UserLogin = () => {
             <form onSubmit={handleLogin}>
                 <label style={labelStyle}>
                     Login:
-                    <input type="text" value={login} onChange={(e) => setLogin(e.target.value)} style={inputStyle} />
+                    <input type="text" value={login} onChange={(e) => setLogin(e.target.value)} style={inputStyle}/>
                 </label>
-                <br />
+                <br/>
                 <label style={labelStyle}>
                     Password:
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} style={inputStyle} />
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                           style={inputStyle}/>
                 </label>
-                <br />
+                <br/>
                 <button type="submit" style={buttonStyle}>Login</button>
             </form>
         </div>

@@ -23,6 +23,18 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Login failed. Please check your credentials.'], 401);
     }
+
+    public function getUserInfo(Request $request)
+    {
+        $user = $request->user();
+
+        return response()->json([
+            'name' => $user->name,
+            'email' => $user->email,
+            'contact' => $user->contact,
+        ]);
+    }
+
     public function registerUser(Request $request)
     {
         $request->validate([

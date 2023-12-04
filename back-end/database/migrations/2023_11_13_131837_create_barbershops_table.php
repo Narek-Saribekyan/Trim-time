@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('contact', 30);
             $table->string('password');
             $table->string('location', 255)->nullable();
-            $table->string('logo', 255)->default('/defaultLogo/defaultLogo.png');
+            $table->string('logo')->default('/defaultLogo/defaultLogo.png');
             $table->string('from_to', 20)->nullable(); //11:00-22:00
             $table->timestamps();
         });

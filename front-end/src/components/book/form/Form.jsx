@@ -1,13 +1,43 @@
-import React, { useState } from 'react';
-import "./form.css"
-const Form = () => {
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [phone, setPhone] = useState("")
+import React, { useState, useEffect } from 'react';
+import "./form.css";
 
-    const handleClick=()=>{
-        
-    }
+const Form = () => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+
+    useEffect(() => {
+        // Fetch user information when the component mounts
+        fetchUserInfo();
+    }, []);
+
+    const fetchUserInfo = async () => {
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/user-info', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer YOUR_ACCESS_TOKEN`, // Include your access token here
+                },
+            });
+
+            if (response.ok) {
+                const userInfo = await response.json();
+                // Update state with user information
+                setName(userInfo.name);
+                setEmail(userInfo.email);
+                setPhone(userInfo.contact);
+            } else {
+                console.error('Failed to fetch user information.');
+            }
+        } catch (error) {
+            console.error('Error during user information fetch:', error);
+        }
+    };
+
+    const handleClick = () => {
+        // Handle the click event
+    };
+
     return (
         <form className='form' onSubmit={(e) => e.preventDefault()} action="">
             <h1 className='form__title'>Fill the form</h1>
@@ -24,4 +54,5 @@ const Form = () => {
         </form>
     );
 };
+
 export default Form;
