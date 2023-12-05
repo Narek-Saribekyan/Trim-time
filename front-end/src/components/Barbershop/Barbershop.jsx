@@ -43,9 +43,13 @@ const Barberhop = () => {
     }
 
 
+    // console.log(selectedBarbershop.services)
     const selectedBarbersServices = selectedBarbershop.services.filter((e) => {
-        return e.barber_id !== parseInt(barberId)
+        return e.barber_id === parseInt(barberId)
     })
+    console.log(selectedBarbershop.barbers);
+    console.log(selectedBarbershop.services);
+
 
     return (
         <>
