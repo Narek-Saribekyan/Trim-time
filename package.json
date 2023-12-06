@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "@headlessui/react": "^1.7.17",
-    "@heroicons/react": "^1.0.6",
-    "date-fns": "^2.30.0",
-    "react-checkmark": "^2.0.0"
-  }
-}

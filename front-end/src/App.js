@@ -4,6 +4,7 @@ import Header from './components/header/Header';
 import Background from './components/main_background/background';
 import { useState,useEffect } from 'react';
 import "./styles/common.css"
+import "./index.css"
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
