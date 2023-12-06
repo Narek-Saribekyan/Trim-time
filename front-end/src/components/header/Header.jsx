@@ -3,7 +3,6 @@ import logo from "../../assets/logoImg.svg"
 import "./header.css"
 import { useEffect, useState } from "react";
 import Navbar from "../navbar/navbar";
-import { barbershops } from "../../fakeBase/base";
 import Search from "../search/Search";
 import UserLogin from "../form/login/Login";
 

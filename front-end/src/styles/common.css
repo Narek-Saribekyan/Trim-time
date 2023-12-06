@@ -1,10 +1,4 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:regular,500,600,700,800,900);
-/* src/styles.css */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-/* Your other styles go here */
-
 *,
 *::before,
 *::after {
@@ -60,4 +54,3 @@ body {
   margin: 0 auto;
   padding: 0 20px;
 }
-
