@@ -5,20 +5,39 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BarbershopController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BarberController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\BookerController;
+use App\Http\Controllers\BookingController;
 
-// Public routes
 Route::get('/search', [SearchController::class, 'search']);
 Route::get('/barbershops', [BarbershopController::class, 'all']);
 Route::get('/barbershop/{id}', [BarbershopController::class, 'show']);
+Route::get('/barbers', [BarberController::class, 'all']);
+Route::get('/barber/{id}', [BarberController::class, 'show']);
+Route::get('/services', [ServiceController::class, 'all']);
+Route::get('/service/{id}', [ServiceController::class, 'show']);
+Route::prefix('bookers')->group(function () {
+    Route::get('/', [BookerController::class, 'all']);
+    Route::get('/{id}', [BookerController::class, 'show']);
+    Route::post('/', [BookerController::class, 'add']);
+    Route::delete('/{id}', [BookerController::class, 'delete']);
+});
+Route::prefix('bookings')->group(function () {
+    Route::get('/', [BookingController::class, 'all']);
+    Route::get('/{id}', [BookingController::class, 'show']);
+    Route::post('/', [BookingController::class, 'store']);
+    Route::delete('/{id}', [BookingController::class, 'destroy']);
+});
 
-// Barbershop-related routes
-Route::post('/addBarbershop', [BarbershopController::class, 'addBarbershop']);
-Route::post('/barbershop/{id}/barbers', [BarbershopController::class, 'addBarber']);
-Route::post('/barbershop/{id}/services', [BarbershopController::class, 'addService']);
+// Updated Barbershop-related routes
+//Route::post('/addBarbershop', [BarbershopController::class, 'add']);
+//Route::get('/barbershop/{id}/barbers', [BarberController::class, 'add']);
+//Route::post('/barbershop/{id}/services', [ServiceController::class, 'add']);
 
 // User-related routes
-Route::post('/loginUser', [UserController::class, 'loginUser']);
-Route::post('/registerUser', [UserController::class, 'registerUser']);
+//Route::get('/loginUser', [UserController::class, 'loginUser']);
+//Route::post('/registerUser', [UserController::class, 'registerUser']);
 
 
 //Route::get('/login', function () {
@@ -27,14 +46,15 @@ Route::post('/registerUser', [UserController::class, 'registerUser']);
 //
 //Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 
+
 // Authenticated routes (protected by Sanctum)
-// You might want to move these routes inside a middleware group for Sanctum authentication
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-});
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user-info', [UserController::class, 'getUserInfo']);
-    Route::post('/user-info', [UserController::class, 'getUserInfo']);
-});
+
+//Route::middleware(['auth:sanctum'])->group(function () {
+//    Route::get('/user', function (Request $request) {
+//        return $request->user();
+//    });
+//});
+//Route::middleware(['auth:sanctum'])->group(function () {
+//    Route::get('/user-info', [UserController::class, 'getUserInfo']);
+//    Route::post('/user-info', [UserController::class, 'getUserInfo']);
+//});

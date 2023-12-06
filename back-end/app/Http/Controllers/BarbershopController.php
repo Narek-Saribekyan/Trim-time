@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request ;
 use App\Models\Barbershop;
 use App\Models\Service;
-use App\Models\User; // Add User model
+use App\Models\User;
 
 class BarbershopController extends Controller
 {
@@ -25,7 +25,7 @@ class BarbershopController extends Controller
         return response()->json(['barbershop' => $barbershop, 'barbers' => $barbers, 'services' => $services]);
     }
 
-    public function register(Request $request)
+    public function add(Request $request)
     {
         $request->validate([
             'type' => 'required|in:barbershop,user', // Add type validation
@@ -71,46 +71,5 @@ class BarbershopController extends Controller
         } else {
             return response()->json(['message' => 'Invalid registration type'], 400);
         }
-    }
-
-    public function addBarber(Request $request, $id)
-    {
-        $barbershop = Barbershop::findOrFail($id);
-
-        $request->validate([
-            'name' => 'required|string',
-            'from-to' => 'required|string',
-        ]);
-
-        $avatar = $request->input('avatar', '/defaultLogo/defaultLogo.png');
-
-        $barber = $barbershop->barbers()->create([
-            'name' => $request->input('name'),
-            'from_to' => $request->input('from_to'),
-            'avatar' => $avatar,
-        ]);
-
-        return response()->json(['message' => 'Barber added successfully', 'barber' => $barber]);
-    }
-
-    public function addService(Request $request, $id)
-    {
-        $barbershop = Barbershop::findOrFail($id);
-
-        $request->validate([
-            'barber_id' => 'required|int',
-            'name' => 'required|string',
-            'price' => 'required|numeric',
-            'longevity' => 'required|string',
-        ]);
-
-        $service = $barbershop->services()->create([
-            'barber_id' => $request->input('barber_id'),
-            'name' => $request->input('name'),
-            'price' => $request->input('price'),
-            'longevity' => $request->input('longevity'),
-        ]);
-
-        return response()->json(['message' => 'Service added successfully', 'service' => $service]);
     }
 }
