@@ -30,7 +30,7 @@ const Service = (props) => {
           <h3>{props.service.price} դր.</h3>
           <h3>{props.service.longevity} ր.</h3>
         </span>
-        <button ref={knopka} onClick={handleAddButtonClick} className='button'>
+        <button  ref={knopka} onClick={handleAddButtonClick} className='button flex items-center justify-center'>
             <img src={check} alt="" />
        </button>
       </div>

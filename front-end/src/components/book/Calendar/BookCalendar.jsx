@@ -1,8 +1,7 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { DotsVerticalIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 // import {DotsVerticalIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react';
-
 import {
   add,
   eachDayOfInterval,
@@ -61,13 +60,17 @@ const meetings = [
   },
 ];
 
+
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 function Meeting({ meeting }) {
+
   let startDateTime = parseISO(meeting.startDatetime);
   let endDateTime = parseISO(meeting.endDatetime);
+  
 
   return (
     <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
@@ -136,6 +139,7 @@ function Meeting({ meeting }) {
 }
 
 export default function Example() {
+
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
   let [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));
@@ -210,23 +214,23 @@ export default function Example() {
                     className={classNames(
                       isEqual(day, selectedDay) && 'text-white',
                       !isEqual(day, selectedDay) &&
-                        isToday(day) &&
-                        'text-red-500',
+                      isToday(day) &&
+                      'text-red-500',
                       !isEqual(day, selectedDay) &&
-                        !isToday(day) &&
-                        isSameMonth(day, firstDayCurrentMonth) &&
-                        'text-gray-900',
+                      !isToday(day) &&
+                      isSameMonth(day, firstDayCurrentMonth) &&
+                      'text-gray-900',
                       !isEqual(day, selectedDay) &&
-                        !isToday(day) &&
-                        !isSameMonth(day, firstDayCurrentMonth) &&
-                        'text-gray-400',
+                      !isToday(day) &&
+                      !isSameMonth(day, firstDayCurrentMonth) &&
+                      'text-gray-400',
                       isEqual(day, selectedDay) && isToday(day) && 'bg-red-500',
                       isEqual(day, selectedDay) &&
-                        !isToday(day) &&
-                        'bg-gray-900',
+                      !isToday(day) &&
+                      'bg-gray-900',
                       !isEqual(day, selectedDay) && 'hover:bg-gray-200',
                       (isEqual(day, selectedDay) || isToday(day)) &&
-                        'font-semibold',
+                      'font-semibold',
                       'mx-auto flex h-8 w-8 items-center justify-center rounded-full'
                     )}
                   >

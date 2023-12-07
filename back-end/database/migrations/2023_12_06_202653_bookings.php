@@ -13,8 +13,8 @@ return new class extends Migration {
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
             $table->unsignedBigInteger('booker_id');
             $table->foreign('booker_id')->references('id')->on('bookers')->onDelete('cascade');
-            $table->date('date');
-            $table->integer('status');
+            $table->dateTime('date');
+            // $table->integer('status');
             $table->timestamps();
         });
     }
