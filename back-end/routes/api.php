@@ -20,7 +20,7 @@ Route::get('/service/{id}', [ServiceController::class, 'show']);
 Route::prefix('bookers')->group(function () {
     Route::get('/', [BookerController::class, 'all']);
     Route::get('/{id}', [BookerController::class, 'show']);
-    Route::post('/', [BookerController::class, 'add']);
+    Route::post('/', [BookerController::class, 'store']);
     Route::delete('/{id}', [BookerController::class, 'delete']);
 });
 Route::prefix('bookings')->group(function () {
