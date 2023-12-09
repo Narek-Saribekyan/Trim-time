@@ -21,7 +21,7 @@ Route::prefix('bookers')->group(function () {
     Route::get('/', [BookerController::class, 'all']);
     Route::get('/{id}', [BookerController::class, 'show']);
     Route::post('/', [BookerController::class, 'store']);
-    Route::delete('/{id}', [BookerController::class, 'delete']);
+    Route::delete('/{id}', [BookerController::class, 'destroy']);
 });
 Route::prefix('bookings')->group(function () {
     Route::get('/', [BookingController::class, 'all']);

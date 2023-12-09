@@ -8,8 +8,8 @@ import { nullify } from '../../toolkitRedux/sliceToolkit';
 
 
 const Services = React.memo((props) => {
-    const totalSumm = parseInt(useSelector(state => state.toolkit.summ));
-    const totalTime = parseInt(useSelector(state => state.toolkit.time));
+    const totalSumm = parseInt(useSelector((state) => state.toolkit.summ));
+    const totalTime = parseInt(useSelector((state) => state.toolkit.time));
     // const totalServices = useSelector(state => state.toolkit.services);
     // console.log(totalServices);
     const [services, setServices] = useState([]);

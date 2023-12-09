@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import './form.css';
 
 const Form = () => {
+    const [selectedServices, setSelectedServices] = useState([]);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -22,9 +23,11 @@ const Form = () => {
             booker_contact: phone,
         })
             .then(response => {
+                const bookerId = response.data.booker.id;
                 setMessage("Booker added successfully!");
-                console.log("API Response:", response.data);
-                // Handle the response as needed
+
+                // Now, you can use the selectedServices array to create bookings
+                createBookings(bookerId);
             })
             .catch(error => {
                 setMessage("Error submitting data. Please try again.");
@@ -33,6 +36,27 @@ const Form = () => {
                 setEmail('');
                 setPhone('');
             });
+    };
+
+    const createBookings = (bookerId) => {
+        console.log(selectedServices)
+        // Make an API call for each selected service to create a booking
+        selectedServices.forEach(service => {
+            axios.post("http://127.0.0.1:8000/api/bookings", {
+                service_id: service.id, // Assuming your service model has an 'id' property
+                booker_id: bookerId,
+                date: '2023-12-09 23:36:37',
+                status: 1
+            })
+                .then(response => {
+                    console.log("Booking created successfully:", response.data);
+                    // Handle the response as needed
+                })
+                .catch(error => {
+                    console.error("Error creating booking:", error);
+                    // Handle error, e.g., show an error message to the user
+                });
+        });
     };
 
     return (
