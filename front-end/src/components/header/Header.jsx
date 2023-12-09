@@ -39,7 +39,7 @@ const Header = () => {
                         {!isAuth
                             ? <div className="header__button">
                                 <button>Login</button>
-                                <UserLogin/>
+                                {/* <UserLogin/> */}
                             </div>
 
                             : <div className="header__user">
