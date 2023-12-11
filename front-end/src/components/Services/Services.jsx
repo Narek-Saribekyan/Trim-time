@@ -4,6 +4,7 @@ import "./services.css";
 import Card from '../BarberCard/Card';
 import Service from '../service/Service';
 import { nullify } from '../../toolkitRedux/sliceToolkit';
+import Book from '../book/Book';
 
 
 
@@ -33,7 +34,7 @@ const Services = React.memo((props) => {
                                     services.map((service) => (
                                         <Service
                                             key={service.id}
-                                            barber={props.barber}
+                                            // barber={props.barber}
                                             service={service}
                                         // onAddButtonClick={handleAddButtonClick}
                                         />
@@ -54,6 +55,9 @@ const Services = React.memo((props) => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className='container'>
+                <Book barber={props.barber}  workingTimes={props.barber.from_to}/>
             </div>
         </div>
     );

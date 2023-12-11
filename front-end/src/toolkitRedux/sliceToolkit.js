@@ -9,13 +9,13 @@ const toolkitSlice = createSlice({
     },
     reducers: {
         addService(state, action) {
-            state.summ = state.summ + action.payload.money
-            state.time = state.time + action.payload.time
+            state.summ = state.summ + action.payload.price;
+            state.time = state.time + action.payload.longevity;
             state.services.push(action.payload.serviceName);
         },
         removeService(state, action) {
-            state.summ = state.summ - action.payload.money
-            state.time = state.time - action.payload.time
+            state.summ = state.summ - action.payload.price;
+            state.time = state.time - action.payload.longevity;
             state.services = state.services.filter(
                 (service) => service !== action.payload.serviceName
             );

@@ -8,9 +8,9 @@ const Service = (props) => {
     const dispatch = useDispatch();
     const knopka = useRef();
 
-    useEffect(() => {
-        console.log('Selected Services:', props.selectedServices);
-    }, [props.selectedServices]);
+    // useEffect(() => {
+    //     console.log('Selected Services:', props.selectedServices);
+    // }, [props.selectedServices]);
 
     const handleAddButtonClick = () => {
         const { id, name, price, longevity } = props.service;

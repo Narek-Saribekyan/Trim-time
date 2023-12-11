@@ -15,6 +15,7 @@ import {
   parse,
   parseISO,
   startOfToday,
+  isAfter, isBefore, sub
 } from 'date-fns';
 
 const meetings = [
@@ -70,7 +71,7 @@ function Meeting({ meeting }) {
 
   let startDateTime = parseISO(meeting.startDatetime);
   let endDateTime = parseISO(meeting.endDatetime);
-  
+
 
   return (
     <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
@@ -138,13 +139,16 @@ function Meeting({ meeting }) {
   );
 }
 
-export default function Example() {
-
+export default function Example(props) {
+  console.log(props.barber);
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
   let [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));
   let firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date());
-
+  const [date, setDate] = useState({
+    justDate: selectedDay,
+    dateTime: null
+  })
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
     end: endOfMonth(firstDayCurrentMonth),
@@ -163,6 +167,52 @@ export default function Example() {
   let selectedDayMeetings = meetings.filter((meeting) =>
     isSameDay(parseISO(meeting.startDatetime), selectedDay)
   );
+  const getTimes = (e) => {
+    // e.split('-')
+    // console.log(e);
+    const { justDate } = date
+    const beginingNumber = parseInt(e.substring(0, 2));
+    const endNumber = parseInt(e.substring(3));
+
+    const begining = add(justDate, { hours: beginingNumber })
+    const end = add(justDate, { hours: endNumber })
+    console.log(begining,endNumber);
+    const interval = 30
+
+    const times = []
+
+    for (let i = begining; i <= end; i = add(i, { minutes: interval })) {
+      times.push(i)
+    }
+    return times
+  }
+
+  const times = getTimes(props.workingTimes)
+  console.log(times);
+  useEffect(() => {
+    const getTimes = (e) => {
+      // e.split('-')
+      // console.log(e);
+      const { justDate } = date
+      const beginingNumber = parseInt(e.substring(0, 2));
+      const endNumber = parseInt(e.substring(3));
+
+      const begining = add(justDate, { hours: beginingNumber })
+      const end = add(justDate, { hours: endNumber })
+      console.log(begining,endNumber);
+      const interval = 30
+
+      const times = []
+
+      for (let i = begining; i <= end; i = add(i, { minutes: interval })) {
+        times.push(i)
+      }
+      return times
+    }
+
+    const times = getTimes(props.workingTimes)
+    console.log(times);
+  }, [props.barber])
 
   return (
     <div className="pt-16">
@@ -253,14 +303,21 @@ export default function Example() {
                 {format(selectedDay, 'MMM dd, yyy')}
               </time>
             </h2>
-            <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
-              {selectedDayMeetings.length > 0 ? (
+            <ol className="mt-4 space-y-1 text-sm leading-6  text-gray-500">
+              {/* {selectedDayMeetings.length > 0 ? (
                 selectedDayMeetings.map((meeting) => (
                   <Meeting meeting={meeting} key={meeting.id} />
                 ))
               ) : (
                 <p>No meetings for today.</p>
-              )}
+              )} */}
+              {times?.map((time,i)=>{
+                return <div key={`time-${i}`} className='rounded-sm bg-gray-100 p-2'>
+                  <button onClick={()=>{setDate((prev)=>({...prev,dateTime:time}))}}>
+                    {format(time,"kk:mm")}
+                  </button>
+                </div>
+              })}
             </ol>
           </section>
         </div>

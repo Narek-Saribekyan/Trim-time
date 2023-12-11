@@ -3,9 +3,11 @@ import { useState } from "react";
 import Form from "./form/Form";
 import Example from "./Calendar/BookCalendar";
 // import Example from "./Calendar/BookCalendar";
-const Book = () => {
+const Book = (props) => {
     const [value, onChange] = useState(new Date())
-    console.log(value);
+    // console.log(props.workingTimes);
+    const workingTimes=props.workingTimes
+    const  barber=props.barber
     return (
         <div className="container flex flex-wrap gap-3">
             {/* <Calendar
@@ -13,7 +15,7 @@ const Book = () => {
                 value={value}
             /> */}
             <div style={{flex:"1"}}>
-                <Example />
+                <Example barber={barber} workingTimes={workingTimes}/>
             </div>
             <Form />
         </div>

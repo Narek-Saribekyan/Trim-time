@@ -79,9 +79,9 @@ const Barberhop = () => {
                                   barber={selectedBarbershop.barbers[barberId]}/>) : null}
                 </div>
             </main>
-            <section>
+            {/* <section>
                 <Book />
-            </section>
+            </section> */}
         </>
     );
 };
