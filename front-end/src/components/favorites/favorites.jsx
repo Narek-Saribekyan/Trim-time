@@ -2,7 +2,6 @@ import {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import "./favorites.css";
-import Example from "../book/Calendar/BookCalendar";
 
 const Favorites = () => {
     const [barbershops, setBarbershops] = useState([]);
@@ -51,7 +50,6 @@ const Favorites = () => {
                     )
                 )}
             </div>
-            <Example/>
         </section>
     );
 };

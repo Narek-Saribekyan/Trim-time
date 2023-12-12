@@ -2,6 +2,9 @@ import React, { useState, Fragment, useEffect } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { DotsVerticalIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 // import {DotsVerticalIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react';
+import { useSelector } from 'react-redux';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import {
   add,
   eachDayOfInterval,
@@ -15,7 +18,7 @@ import {
   parse,
   parseISO,
   startOfToday,
-  isAfter, isBefore, sub
+  isWithinInterval,
 } from 'date-fns';
 
 const meetings = [
@@ -60,8 +63,23 @@ const meetings = [
     endDatetime: '2022-05-13T14:30',
   },
 ];
-
-
+const bookings = [
+  {
+    id: 1,
+    startDateTime: "2023-12-30T16:00",
+    endDateTime: "2023-12-30T17:00"
+  },
+  {
+    id: 2,
+    startDateTime: "2023-12-30T13:00",
+    endDateTime: "2023-12-30T15:00"
+  },
+  {
+    id: 3,
+    startDateTime: "2023-12-30T12:00",
+    endDateTime: "2023-12-30T12:30"
+  },
+]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -140,7 +158,6 @@ function Meeting({ meeting }) {
 }
 
 export default function Example(props) {
-  console.log(props.barber);
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
   let [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));
@@ -149,6 +166,7 @@ export default function Example(props) {
     justDate: selectedDay,
     dateTime: null
   })
+  console.log(date);
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
     end: endOfMonth(firstDayCurrentMonth),
@@ -164,55 +182,90 @@ export default function Example(props) {
     setCurrentMonth(format(firstDayNextMonth, 'MMM-yyyy'));
   }
 
-  let selectedDayMeetings = meetings.filter((meeting) =>
-    isSameDay(parseISO(meeting.startDatetime), selectedDay)
-  );
-  const getTimes = (e) => {
+  // let selectedDayMeetings = meetings.filter((meeting) =>
+  //   isSameDay(parseISO(meeting.startDatetime), selectedDay)
+  // );
+  const GetTimes = (e) => {
     // e.split('-')
     // console.log(e);
+
+    const longetivity = parseInt(useSelector((state) => state.toolkit.time));
+
+    const check = Math.ceil(longetivity / 30) * 30
     const { justDate } = date
     const beginingNumber = parseInt(e.substring(0, 2));
     const endNumber = parseInt(e.substring(3));
 
     const begining = add(justDate, { hours: beginingNumber })
     const end = add(justDate, { hours: endNumber })
-    console.log(begining,endNumber);
     const interval = 30
 
     const times = []
 
-    for (let i = begining; i <= end; i = add(i, { minutes: interval })) {
-      times.push(i)
+    for (let i = begining; i < end; i = add(i, { minutes: interval })) {
+      const timeTOCheck = add(i, { minutes: check })
+      let isWithinAnyBooking = false;
+
+      bookings?.some((el) => {
+        const bookingStart = new Date(el.startDateTime);
+        const bookingEnd = new Date(el.endDateTime);
+    
+        if (isWithinInterval(timeTOCheck, { start: bookingStart, end: bookingEnd })) {
+          isWithinAnyBooking = true;
+          return true; // exit the loop early since we found a booking
+        }
+    
+        return false;
+      });
+    
+      if (!isWithinAnyBooking) {
+        times.push(i);
+      }
     }
     return times
   }
 
-  const times = getTimes(props.workingTimes)
-  console.log(times);
+  const longetivity = parseInt(useSelector((state) => state.toolkit.time));
+  const times = GetTimes(props.workingTimes)
+  // console.log(times);
   useEffect(() => {
-    const getTimes = (e) => {
-      // e.split('-')
-      // console.log(e);
-      const { justDate } = date
-      const beginingNumber = parseInt(e.substring(0, 2));
-      const endNumber = parseInt(e.substring(3));
+    const getTimes = (e,longetivity) => {
+    const check = Math.ceil(longetivity / 30) * 30
+    const { justDate } = date
+    const beginingNumber = parseInt(e.substring(0, 2));
+    const endNumber = parseInt(e.substring(3));
 
-      const begining = add(justDate, { hours: beginingNumber })
-      const end = add(justDate, { hours: endNumber })
-      console.log(begining,endNumber);
-      const interval = 30
+    const begining = add(justDate, { hours: beginingNumber })
+    const end = add(justDate, { hours: endNumber })
+    const interval = 30
 
-      const times = []
+    const times = []
 
-      for (let i = begining; i <= end; i = add(i, { minutes: interval })) {
-        times.push(i)
+    for (let i = begining; i < end; i = add(i, { minutes: interval })) {
+      const timeTOCheck = add(i, { minutes: check })
+      let isWithinAnyBooking = false;
+
+      bookings?.some((el) => {
+        const bookingStart = new Date(el.startDateTime);
+        const bookingEnd = new Date(el.endDateTime);
+    
+        if (isWithinInterval(timeTOCheck, { start: bookingStart, end: bookingEnd })) {
+          isWithinAnyBooking = true;
+          return true; // exit the loop early since we found a booking
+        }
+    
+        return false;
+      });
+    
+      if (!isWithinAnyBooking) {
+        times.push(i);
       }
-      return times
     }
-
-    const times = getTimes(props.workingTimes)
-    console.log(times);
-  }, [props.barber])
+    return times
+    }
+    console.log('I re-rendered');
+    const times = getTimes(props.workingTimes,longetivity)
+  }, [date.justDate,longetivity])
 
   return (
     <div className="pt-16">
@@ -260,38 +313,33 @@ export default function Example(props) {
                 >
                   <button
                     type="button"
-                    onClick={() => setSelectedDay(day)}
+                    // onClick={() => setSelectedDay(day)}
+                    onClick={() => setDate((prev) => ({ ...prev, justDate: day }))}
                     className={classNames(
-                      isEqual(day, selectedDay) && 'text-white',
-                      !isEqual(day, selectedDay) &&
+                      isEqual(day, date.justDate) && 'text-white',
+                      !isEqual(day, date.justDate) &&
                       isToday(day) &&
                       'text-red-500',
-                      !isEqual(day, selectedDay) &&
+                      !isEqual(day, date.justDate) &&
                       !isToday(day) &&
                       isSameMonth(day, firstDayCurrentMonth) &&
                       'text-gray-900',
-                      !isEqual(day, selectedDay) &&
+                      !isEqual(day, date.justDate) &&
                       !isToday(day) &&
                       !isSameMonth(day, firstDayCurrentMonth) &&
                       'text-gray-400',
-                      isEqual(day, selectedDay) && isToday(day) && 'bg-red-500',
-                      isEqual(day, selectedDay) &&
+                      isEqual(day, date.justDate) && isToday(day) && 'bg-red-500',
+                      isEqual(day, date.justDate) &&
                       !isToday(day) &&
                       'bg-gray-900',
-                      !isEqual(day, selectedDay) && 'hover:bg-gray-200',
-                      (isEqual(day, selectedDay) || isToday(day)) &&
+                      !isEqual(day, date.justDate) && 'hover:bg-gray-200',
+                      (isEqual(day, date.justDate) || isToday(day)) &&
                       'font-semibold',
                       'mx-auto flex h-8 w-8 items-center justify-center rounded-full'
                     )}
                   >
                     <time dateTime={format(day, 'yyyy-MM-dd')}>{format(day, 'd')}</time>
                   </button>
-
-                  <div className="w-1 h-1 mx-auto mt-1">
-                    {meetings.some((meeting) =>
-                      isSameDay(parseISO(meeting.startDatetime), day)
-                    ) && <div className="w-1 h-1 rounded-full bg-sky-500"></div>}
-                  </div>
                 </div>
               ))}
             </div>
@@ -300,10 +348,10 @@ export default function Example(props) {
             <h2 className="font-semibold text-gray-900">
               Schedule for{' '}
               <time dateTime={format(selectedDay, 'yyyy-MM-dd')}>
-                {format(selectedDay, 'MMM dd, yyy')}
+                {format(date.justDate, 'MMM dd, yyy')}
               </time>
             </h2>
-            <ol className="mt-4 space-y-1 text-sm leading-6  text-gray-500">
+            <ol className="mt-4  text-sm leading-6 grid grid-cols-7 gap-1 text-gray-500">
               {/* {selectedDayMeetings.length > 0 ? (
                 selectedDayMeetings.map((meeting) => (
                   <Meeting meeting={meeting} key={meeting.id} />
@@ -311,18 +359,44 @@ export default function Example(props) {
               ) : (
                 <p>No meetings for today.</p>
               )} */}
-              {times?.map((time,i)=>{
-                return <div key={`time-${i}`} className='rounded-sm bg-gray-100 p-2'>
-                  <button onClick={()=>{setDate((prev)=>({...prev,dateTime:time}))}}>
-                    {format(time,"kk:mm")}
+              {times?.map((time, i) => {
+                return <div key={`time-${i}`} className='rounded-sm bg-gray-100  hover:cursor-pointer hover:bg-gray-300'>
+                  <button className='p-2' onClick={() => { setDate((prev) => ({ ...prev, dateTime: time })) }}>
+                    {format(time, "kk:mm")}
                   </button>
                 </div>
               })}
+
             </ol>
+            <div className='mt-2'>
+            {date.dateTime !== null
+                ? <h1 className='flex-1'>{format(date.dateTime, "yyyy-MM-dd' 'kk:mm")}</h1>
+                : null
+              }
+            </div>
           </section>
         </div>
       </div>
     </div>
+    // <>
+    //   <div>
+    //     <Calendar
+    //       minDate={new Date()}
+    //       view='month'
+    //       onClick={(date) => setDate((prev) => ({ ...prev, justDate: date }))}
+    //     />
+    //     {times?.map((time, i) => {
+    //       return <div key={`time-${i}`} className='rounded-sm bg-gray-100 p-2'>
+    //         <button onClick={() => { setDate((prev) => ({ ...prev, dateTime: time })) }}>
+    //           {format(time, "kk:mm")}
+    //         </button>
+    //       </div>
+    //     })}
+    //   </div>
+    //   <div>
+
+    //   </div>
+    // </>
   );
 }
 

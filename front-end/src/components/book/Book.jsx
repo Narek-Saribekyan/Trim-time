@@ -9,7 +9,7 @@ const Book = (props) => {
     const workingTimes=props.workingTimes
     const  barber=props.barber
     return (
-        <div className="container flex flex-wrap gap-3">
+        <div className="container flex flex-wrap gap-3 my-[120px]">
             {/* <Calendar
                 onChange={onChange}
                 value={value}
