@@ -166,7 +166,11 @@ export default function Example(props) {
     justDate: selectedDay,
     dateTime: null
   })
-  console.log(date);
+
+
+  // console.log(date);
+  
+  
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
     end: endOfMonth(firstDayCurrentMonth),
@@ -209,15 +213,15 @@ export default function Example(props) {
       bookings?.some((el) => {
         const bookingStart = new Date(el.startDateTime);
         const bookingEnd = new Date(el.endDateTime);
-    
+
         if (isWithinInterval(timeTOCheck, { start: bookingStart, end: bookingEnd })) {
           isWithinAnyBooking = true;
           return true; // exit the loop early since we found a booking
         }
-    
+
         return false;
       });
-    
+
       if (!isWithinAnyBooking) {
         times.push(i);
       }
@@ -229,43 +233,47 @@ export default function Example(props) {
   const times = GetTimes(props.workingTimes)
   // console.log(times);
   useEffect(() => {
-    const getTimes = (e,longetivity) => {
-    const check = Math.ceil(longetivity / 30) * 30
-    const { justDate } = date
-    const beginingNumber = parseInt(e.substring(0, 2));
-    const endNumber = parseInt(e.substring(3));
+    const getTimes = (e, longetivity) => {
+      const check = Math.ceil(longetivity / 30) * 30
+      const { justDate } = date
+      const beginingNumber = parseInt(e.substring(0, 2));
+      const endNumber = parseInt(e.substring(3));
 
-    const begining = add(justDate, { hours: beginingNumber })
-    const end = add(justDate, { hours: endNumber })
-    const interval = 30
+      const begining = add(justDate, { hours: beginingNumber })
+      const end = add(justDate, { hours: endNumber })
+      const interval = 30
 
-    const times = []
+      const times = []
 
-    for (let i = begining; i < end; i = add(i, { minutes: interval })) {
-      const timeTOCheck = add(i, { minutes: check })
-      let isWithinAnyBooking = false;
+      for (let i = begining; i < end; i = add(i, { minutes: interval })) {
+        const timeTOCheck = add(i, { minutes: check })
+        let isWithinAnyBooking = false;
 
-      bookings?.some((el) => {
-        const bookingStart = new Date(el.startDateTime);
-        const bookingEnd = new Date(el.endDateTime);
-    
-        if (isWithinInterval(timeTOCheck, { start: bookingStart, end: bookingEnd })) {
-          isWithinAnyBooking = true;
-          return true; // exit the loop early since we found a booking
+        bookings?.some((el) => {
+          const bookingStart = new Date(el.startDateTime);
+          const bookingEnd = new Date(el.endDateTime);
+
+          if (isWithinInterval(timeTOCheck, { start: bookingStart, end: bookingEnd })) {
+            isWithinAnyBooking = true;
+            return true; // exit the loop early since we found a booking
+          }
+
+          return false;
+        });
+
+        if (!isWithinAnyBooking) {
+          times.push(i);
         }
-    
-        return false;
-      });
-    
-      if (!isWithinAnyBooking) {
-        times.push(i);
       }
+      return times
     }
-    return times
-    }
-    console.log('I re-rendered');
-    const times = getTimes(props.workingTimes,longetivity)
-  }, [date.justDate,longetivity])
+
+
+    // console.log('I re-rendered');
+    
+    
+    const times = getTimes(props.workingTimes, longetivity)
+  }, [date.justDate, longetivity])
 
   return (
     <div className="pt-16">
@@ -369,7 +377,7 @@ export default function Example(props) {
 
             </ol>
             <div className='mt-2'>
-            {date.dateTime !== null
+              {date.dateTime !== null
                 ? <h1 className='flex-1'>{format(date.dateTime, "yyyy-MM-dd' 'kk:mm")}</h1>
                 : null
               }

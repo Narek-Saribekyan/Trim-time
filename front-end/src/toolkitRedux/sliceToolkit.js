@@ -11,13 +11,13 @@ const toolkitSlice = createSlice({
         addService(state, action) {
             state.summ = state.summ + action.payload.price;
             state.time = state.time + action.payload.longevity;
-            state.services.push(action.payload.serviceName);
+            state.services.push(action.payload.id);
         },
         removeService(state, action) {
             state.summ = state.summ - action.payload.price;
             state.time = state.time - action.payload.longevity;
             state.services = state.services.filter(
-                (service) => service !== action.payload.serviceName
+                (service) => service !== action.payload.id
             );
         },
         nullify(state) {
@@ -25,9 +25,12 @@ const toolkitSlice = createSlice({
             state.time = 0
             state.services = []
         },
+        clearServices(state) {
+            state.services = [];
+        },
     }
-})
+});
 
-export default toolkitSlice.reducer
+export default toolkitSlice.reducer;
 
-export const { addService, removeService, nullify } = toolkitSlice.actions
+export const { addService, removeService, nullify, clearServices } = toolkitSlice.actions;

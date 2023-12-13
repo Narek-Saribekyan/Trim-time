@@ -6,20 +6,26 @@ import Service from '../service/Service';
 import { nullify } from '../../toolkitRedux/sliceToolkit';
 import Book from '../book/Book';
 
-
-
 const Services = React.memo((props) => {
     const totalSumm = parseInt(useSelector((state) => state.toolkit.summ));
     const totalTime = parseInt(useSelector((state) => state.toolkit.time));
     // const totalServices = useSelector(state => state.toolkit.services);
     // console.log(totalServices);
     const [services, setServices] = useState([]);
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     useEffect(() => {
         setServices(props.services);
-        console.log("I have worked");
+
+
+        // console.log("I have worked");
+
+
         dispatch(nullify())
     }, [props.services]);
+    useEffect(() => {
+        console.log("Services have changed:", services);
+        dispatch(nullify())
+    }, [services]);
     return (
         <div className='barber'>
             <div className='container'>
@@ -57,7 +63,7 @@ const Services = React.memo((props) => {
                 </div>
             </div>
             <div className='container'>
-                <Book barber={props.barber}  workingTimes={props.barber.from_to}/>
+                <Book barber={props.barber} workingTimes={props.barber.from_to} />
             </div>
         </div>
     );
