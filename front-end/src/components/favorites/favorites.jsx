@@ -25,7 +25,7 @@ const Favorites = () => {
     return (
         <section className="favs">
             <div className="container">
-                <h1 className="favs__title">Favorites</h1>
+                <h1 className="favs__title">Top Barbershops</h1>
                 {loading && <p>Loading...</p>}
                 {error && <p>Error: {error.message}</p>}
                 {Array.isArray(barbershops) && barbershops.length > 0 && !loading ? (

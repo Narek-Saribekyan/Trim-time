@@ -2,8 +2,8 @@ import React, { useState, Fragment, useEffect } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { DotsVerticalIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 // import {DotsVerticalIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react';
-import { useSelector } from 'react-redux';
-import Calendar from 'react-calendar';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectDate } from "../../../toolkitRedux/sliceToolkit";
 import 'react-calendar/dist/Calendar.css';
 import {
   add,
@@ -12,7 +12,6 @@ import {
   format,
   getDay,
   isEqual,
-  isSameDay,
   isSameMonth,
   isToday,
   parse,
@@ -20,6 +19,7 @@ import {
   startOfToday,
   isWithinInterval,
 } from 'date-fns';
+
 
 const meetings = [
   {
@@ -166,11 +166,13 @@ export default function Example(props) {
     justDate: selectedDay,
     dateTime: null
   })
+  const dispatch = useDispatch()
+
 
 
   // console.log(date);
-  
-  
+
+
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
     end: endOfMonth(firstDayCurrentMonth),
@@ -270,10 +272,27 @@ export default function Example(props) {
 
 
     // console.log('I re-rendered');
-    
-    
+
+
     const times = getTimes(props.workingTimes, longetivity)
   }, [date.justDate, longetivity])
+
+  useEffect(() => {
+    console.log(date.dateTime);
+
+    const interval = Math.ceil(longetivity / 30) * 30;
+
+    if (date.dateTime !== null) {
+      const unformattedStartDate = new Date(date.dateTime);
+      const start = format(unformattedStartDate, 'yyyy-MM-dd HH:mm');
+
+      const unformattedEndDate = add(unformattedStartDate, { minutes: interval });
+      const end = format(unformattedEndDate, 'yyyy-MM-dd HH:mm');
+
+      console.log(interval, start, end);
+      dispatch(selectDate({ start, end }));
+    }
+  }, [date.dateTime, longetivity]);
 
   return (
     <div className="pt-16">
@@ -369,7 +388,22 @@ export default function Example(props) {
               )} */}
               {times?.map((time, i) => {
                 return <div key={`time-${i}`} className='rounded-sm bg-gray-100  hover:cursor-pointer hover:bg-gray-300'>
-                  <button className='p-2' onClick={() => { setDate((prev) => ({ ...prev, dateTime: time })) }}>
+                  <button className='p-2' onClick={() => {
+                    setDate((prev) => ({ ...prev, dateTime: time }))
+                    // console.log(date.dateTime);
+                    // const interval = Math.ceil(longetivity / 30) * 30
+                    // if (date.dateTime !== null) {
+                    //   const unformattedStartDate = new Date(date.dateTime);
+                    //   const start = format(unformattedStartDate, "yyyy-MM-dd HH:mm");
+
+                    //   const unformattedEndDate = add(unformattedStartDate, { minutes: interval });
+                    //   const end = format(unformattedEndDate, "yyyy-MM-dd HH:mm");
+
+                    //   console.log(interval, start, end);
+                    //   dispatch(selectDate({ start, end }));
+                    // }
+
+                  }}>
                     {format(time, "kk:mm")}
                   </button>
                 </div>

@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearServices } from '../../../toolkitRedux/sliceToolkit';
 import './form.css';
 
 const Form = () => {
     const dispatch = useDispatch();
+    const navigate=useNavigate()
     // const selectedServices = useSelector((state) => state.toolkit.services);
+    const start_date_time = useSelector((state) => state.toolkit.start_date_time);
+    const end_date_time = useSelector((state) => state.toolkit.end_date_time);
     const barberId = parseInt(useSelector((state) => state.toolkit.barberId));
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -31,6 +35,9 @@ const Form = () => {
                 const bookerId = response.data.booker.id;
                 setMessage('Booker added successfully!');
                 createBookings(bookerId);
+                setTimeout(()=>{
+                    navigate("/")
+                },1000)
             })
             .catch((error) => {
                 setMessage('Error submitting data. Please try again.');
@@ -50,20 +57,15 @@ const Form = () => {
             // service_id: serviceId,
             booker_id: bookerId,
             barber_id: barberId,
-            start_date_time: '2023-12-21 02:23:16',
-            end_date_time: '2023-12-21 02:45:16',
+            start_date_time: start_date_time,
+            end_date_time: end_date_time,
             // status: 1,
         };
 
         console.log('Request Payload:', requestData);
 
         axios
-            .post('http://127.0.0.1:8000/api/bookings', {
-                booker_id: bookerId,
-                barber_id: barberId,
-                start_date_time: '2023-12-21 02:23:16',
-                end_date_time: '2023-12-21 02:45:16',
-            })
+            .post('http://127.0.0.1:8000/api/bookings', requestData)
             .then((response) => {
                 console.log('Booking created successfully:', response.data);
                 dispatch(clearServices());
@@ -71,6 +73,7 @@ const Form = () => {
             .catch((error) => {
                 console.error('Error creating booking:', error);
             });
+
         // });
     };
 

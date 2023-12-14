@@ -6,7 +6,9 @@ const toolkitSlice = createSlice({
         summ: 0,
         time: 0,
         services: [],
-        barberId: null
+        barberId: null,
+        start_date_time: null,
+        end_date_time: null,
     },
     reducers: {
         addService(state, action) {
@@ -31,10 +33,14 @@ const toolkitSlice = createSlice({
         },
         chooseBarber(state, action) {
             state.barberId = action.payload
+        },
+        selectDate(state,action){
+            state.start_date_time=action.payload.start
+            state.end_date_time=action.payload.end
         }
     }
 });
 
 export default toolkitSlice.reducer;
 
-export const { addService, removeService, nullify, clearServices, chooseBarber } = toolkitSlice.actions;
+export const { addService, removeService, nullify, clearServices, chooseBarber, selectDate } = toolkitSlice.actions;
