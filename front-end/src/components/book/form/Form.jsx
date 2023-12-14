@@ -5,8 +5,9 @@ import { clearServices } from '../../../toolkitRedux/sliceToolkit';
 import './form.css';
 
 const Form = () => {
-    const selectedServices = useSelector((state) => state.toolkit.services);
     const dispatch = useDispatch();
+    // const selectedServices = useSelector((state) => state.toolkit.services);
+    const barberId = parseInt(useSelector((state) => state.toolkit.barberId));
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -41,29 +42,36 @@ const Form = () => {
     };
 
     const createBookings = (bookerId) => {
-        console.log('selectedServices');
-        console.log(selectedServices);
+        // console.log('selectedServices');
+        // console.log(selectedServices);
 
-        selectedServices.forEach((serviceId) => {
-            const requestData = {
-                service_id: serviceId,
+        // selectedServices.forEach((serviceId) => {
+        const requestData = {
+            // service_id: serviceId,
+            booker_id: bookerId,
+            barber_id: barberId,
+            start_date_time: '2023-12-21 02:23:16',
+            end_date_time: '2023-12-21 02:45:16',
+            // status: 1,
+        };
+
+        console.log('Request Payload:', requestData);
+
+        axios
+            .post('http://127.0.0.1:8000/api/bookings', {
                 booker_id: bookerId,
-                date: '2023-12-21 02:23:16',
-                status: 1,
-            };
-
-            console.log('Request Payload:', requestData);
-
-            axios
-                .post('http://127.0.0.1:8000/api/bookings', requestData)
-                .then((response) => {
-                    console.log('Booking created successfully:', response.data);
-                    dispatch(clearServices());
-                })
-                .catch((error) => {
-                    console.error('Error creating booking:', error);
-                });
-        });
+                barber_id: barberId,
+                start_date_time: '2023-12-21 02:23:16',
+                end_date_time: '2023-12-21 02:45:16',
+            })
+            .then((response) => {
+                console.log('Booking created successfully:', response.data);
+                dispatch(clearServices());
+            })
+            .catch((error) => {
+                console.error('Error creating booking:', error);
+            });
+        // });
     };
 
     return (

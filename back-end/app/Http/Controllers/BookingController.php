@@ -9,13 +9,13 @@ class BookingController extends Controller
 {
     public function all()
     {
-        $bookings = Booking::with(['service', 'booker'])->get();
+        $bookings = Booking::with(['booker'])->get();
         return response()->json(['bookings' => $bookings]);
     }
 
     public function show($id)
     {
-        $booking = Booking::with(['service', 'booker'])->find($id);
+        $booking = Booking::with(['booker'])->find($id);
 
         if ($booking) {
             return response()->json(['booking' => $booking]);
@@ -27,18 +27,22 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'service_id' => 'required|exists:services,id',
+//            'service_id' => 'required|exists:services,id',
             'booker_id' => 'required|exists:bookers,id',
-            'date' => 'required|date',
-            'status' => 'required|string',
+            'barber_id' => 'required|exists:barbers,id',
+            'start_date_time' => 'required|date',
+            'end_date_time' => 'required|date',
+//            'status' => 'required|string',
         ]);
 
-        $booking = Booking::create([
-            'service_id' => $request->input('service_id'),
+        $data = [
             'booker_id' => $request->input('booker_id'),
-            'date' => $request->input('date'),
-            'status' => $request->input('status'),
-        ]);
+            'barber_id' => $request->input('barber_id'),
+            'start_date_time' => $request->input('start_date_time'),
+            'end_date_time' => $request->input('end_date_time'),
+        ];
+
+        $booking = Booking::create($data);
 
         return response()->json(['message' => 'Booking created successfully', 'booking' => $booking]);
     }
