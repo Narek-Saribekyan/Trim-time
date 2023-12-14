@@ -9,4 +9,8 @@ class Barber extends Model
 {
     use HasFactory;
     protected $fillable = ['barbershop_id', 'name', 'from_to', 'avatar'];
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

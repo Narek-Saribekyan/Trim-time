@@ -15,6 +15,7 @@ Route::get('/barbershops', [BarbershopController::class, 'all']);
 Route::get('/barbershop/{id}', [BarbershopController::class, 'show']);
 Route::get('/barbers', [BarberController::class, 'all']);
 Route::get('/barber/{id}', [BarberController::class, 'show']);
+Route::get('/barber/{id}/bookings', [BarberController::class, 'bookings']);
 Route::get('/services', [ServiceController::class, 'all']);
 Route::get('/service/{id}', [ServiceController::class, 'show']);
 Route::prefix('bookers')->group(function () {

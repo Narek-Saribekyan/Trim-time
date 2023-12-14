@@ -9,13 +9,13 @@ class BookingController extends Controller
 {
     public function all()
     {
-        $bookings = Booking::with(['booker'])->get();
+        $bookings = Booking::with(['barber', 'booker'])->get();
         return response()->json(['bookings' => $bookings]);
     }
 
     public function show($id)
     {
-        $booking = Booking::with(['booker'])->find($id);
+        $booking = Booking::with(['barber', 'booker'])->find($id);
 
         if ($booking) {
             return response()->json(['booking' => $booking]);

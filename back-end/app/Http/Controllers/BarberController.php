@@ -41,5 +41,12 @@ class BarberController extends Controller
 
         return response()->json(['message' => 'Barber added successfully', 'barber' => $barber]);
     }
+
+    public function bookings(Request $request, $id) {
+        $barber = Barber::findOrFail($id);
+        $bookings = $barber->bookings; // Assuming you have defined the relationship in the Barber model
+        return response()->json(['bookings' => $bookings]);
+    }
+
     // Add other methods as needed (show, store, update, delete)
 }
