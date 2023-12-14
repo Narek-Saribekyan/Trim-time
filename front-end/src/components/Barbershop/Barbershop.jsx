@@ -25,7 +25,7 @@ const Barberhop = () => {
 
         axios.get(apiUrl)
             .then(response => {
-                setSelectedBarbershop(response.data);
+                setSelectedBarbershop((response.data));
                 setLoading(false);
             })
             .catch(error => {
@@ -57,7 +57,8 @@ const Barberhop = () => {
             <Header />
             <main className='main barbershop'>
                 <div className="container">
-                    <h1 className='barbershop__title'>{selectedBarbershop.name}</h1>
+                    <h1 className='barbershop__title'>{selectedBarbershop.barbershop.name}</h1>
+                    <h4 className='text-xl text-center'>{selectedBarbershop.barbershop.location}</h4>
                     <h2 className='barbershop__subtitle'>Choose a barber</h2>
                     <div className="barbershop__barbers barbers">
                         <div className="barbers__row">
