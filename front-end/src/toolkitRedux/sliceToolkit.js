@@ -9,6 +9,7 @@ const toolkitSlice = createSlice({
         barberId: null,
         start_date_time: null,
         end_date_time: null,
+        bookings:[]
     },
     reducers: {
         addService(state, action) {
@@ -37,10 +38,13 @@ const toolkitSlice = createSlice({
         selectDate(state,action){
             state.start_date_time=action.payload.start
             state.end_date_time=action.payload.end
+        },
+        setBookings(state,action){
+            state.bookings=action.payload
         }
     }
 });
 
 export default toolkitSlice.reducer;
 
-export const { addService, removeService, nullify, clearServices, chooseBarber, selectDate } = toolkitSlice.actions;
+export const { addService, removeService, nullify, clearServices, chooseBarber, selectDate,setBookings } = toolkitSlice.actions;

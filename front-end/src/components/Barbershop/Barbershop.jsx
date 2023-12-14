@@ -49,8 +49,6 @@ const Barberhop = () => {
     const selectedBarbersServices = selectedBarbershop.services.filter((e) => {
         return e.barber_id === parseInt(barberId)
     })
-    console.log(selectedBarbershop.barbers);
-    console.log(selectedBarbershop.services);
 
 
     return (
@@ -82,9 +80,6 @@ const Barberhop = () => {
                             barber={selectedBarbershop.barbers[barberId]} />) : null}
                 </div>
             </main>
-            {/* <section>
-                <Book />
-            </section> */}
         </>
     );
 };

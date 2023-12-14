@@ -23,7 +23,6 @@ const Services = React.memo((props) => {
         dispatch(nullify())
     }, [props.services]);
     useEffect(() => {
-        console.log("Services have changed:", services);
         dispatch(nullify())
     }, [services]);
     return (

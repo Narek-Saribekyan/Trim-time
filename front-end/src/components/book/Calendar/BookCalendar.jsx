@@ -1,9 +1,8 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import React, { useState,  useEffect } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { DotsVerticalIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
-// import {DotsVerticalIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectDate } from "../../../toolkitRedux/sliceToolkit";
+import { selectDate ,setBookings} from "../../../toolkitRedux/sliceToolkit";
 import 'react-calendar/dist/Calendar.css';
 import {
   add,
@@ -19,145 +18,39 @@ import {
   startOfToday,
   isWithinInterval,
 } from 'date-fns';
+import axios from 'axios';
 
+// const bookings=[
 
-const meetings = [
-  {
-    id: 1,
-    name: 'Leslie Alexander',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2022-05-11T13:00',
-    endDatetime: '2022-05-11T14:30',
-  },
-  {
-    id: 2,
-    name: 'Michael Foster',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2022-05-20T09:00',
-    endDatetime: '2022-05-20T11:30',
-  },
-  {
-    id: 3,
-    name: 'Dries Vincent',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2022-05-20T17:00',
-    endDatetime: '2022-05-20T18:30',
-  },
-  {
-    id: 4,
-    name: 'Leslie Alexander',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2022-06-09T13:00',
-    endDatetime: '2022-06-09T14:30',
-  },
-  {
-    id: 5,
-    name: 'Michael Foster',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2022-05-13T14:00',
-    endDatetime: '2022-05-13T14:30',
-  },
-];
-const bookings = [
-  {
-    id: 1,
-    startDateTime: "2023-12-30T16:00",
-    endDateTime: "2023-12-30T17:00"
-  },
-  {
-    id: 2,
-    startDateTime: "2023-12-30T13:00",
-    endDateTime: "2023-12-30T15:00"
-  },
-  {
-    id: 3,
-    startDateTime: "2023-12-30T12:00",
-    endDateTime: "2023-12-30T12:30"
-  },
-]
+// ]
+
+// const bookings = [
+//   // {
+//   //   id: 1,
+//   //   start_date_time: "2023-12-30T16:00",
+//   //   end_date_time: "2023-12-30T17:00"
+//   // },
+//   // {
+//   //   id: 2,
+//   //   start_date_time: "2023-12-30T13:00",
+//   //   end_date_time: "2023-12-30T15:00"
+//   // },
+//   // {
+//   //   id: 3,
+//   //   start_date_time: "2023-12-30T12:00",
+//   //   end_date_time: "2023-12-30T12:30"
+//   // },
+// ]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-function Meeting({ meeting }) {
 
-  let startDateTime = parseISO(meeting.startDatetime);
-  let endDateTime = parseISO(meeting.endDatetime);
-
-
-  return (
-    <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
-      <img src={meeting.imageUrl} alt="" className="flex-none w-10 h-10 rounded-full" />
-      <div className="flex-auto">
-        <p className="text-gray-900">{meeting.name}</p>
-        <p className="mt-0.5">
-          <time dateTime={meeting.startDatetime}>{format(startDateTime, 'h:mm a')}</time> -{' '}
-          <time dateTime={meeting.endDatetime}>{format(endDateTime, 'h:mm a')}</time>
-        </p>
-      </div>
-      <Menu
-        as="div"
-        className="relative opacity-0 focus-within:opacity-100 group-hover:opacity-100"
-      >
-        <div>
-          <Menu.Button className="-m-2 flex items-center rounded-full p-1.5 text-gray-500 hover:text-gray-600">
-            <span className="sr-only">Open options</span>
-            <DotsVerticalIcon className="w-6 h-6" aria-hidden="true" />
-          </Menu.Button>
-        </div>
-
-        <Transition
-          as={Fragment}
-          enter="transition ease-out duration-100"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-        >
-          <Menu.Items className="absolute right-0 z-10 mt-2 origin-top-right bg-white rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <div className="py-1">
-              <Menu.Item>
-                {({ active }) => (
-                  <a
-                    href="#"
-                    className={classNames(
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                      'block px-4 py-2 text-sm'
-                    )}
-                  >
-                    Edit
-                  </a>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <a
-                    href="#"
-                    className={classNames(
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                      'block px-4 py-2 text-sm'
-                    )}
-                  >
-                    Cancel
-                  </a>
-                )}
-              </Menu.Item>
-            </div>
-          </Menu.Items>
-        </Transition>
-      </Menu>
-    </li>
-  );
-}
 
 export default function Example(props) {
+  const longetivity = parseInt(useSelector((state) => state.toolkit.time)); 
+  const bookings = useSelector((state) => state.toolkit.bookings); 
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
   let [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));
@@ -167,10 +60,67 @@ export default function Example(props) {
     dateTime: null
   })
   const dispatch = useDispatch()
+  const [freeTimes,setFreeTimes]=useState([])
+
+  
+  useEffect(() => {
+    console.log("I've worked");
+    axios.get(`http://127.0.0.1:8000/api/barber/${props.barber.id}/bookings`)
+      .then((response) => {
+        dispatch(setBookings(response.data.bookings))
+        // setBookings(response.data.bookings)
+        console.log(bookings);
+        // setBookings(response.data)
+        // console.log(response.data);
+      })
+      .catch((error) => {
+        // Handle errors here
+        console.error('Error fetching bookings:', error);
+      });
+  }, [props.barber]);
+
+  useEffect(()=>{
+    const getTimes = (e, longetivity) => {
+      const check = Math.ceil(longetivity / 30) * 30
+      const { justDate } = date
+      const beginingNumber = parseInt(e.substring(0, 2));
+      const endNumber = parseInt(e.substring(3));
+
+      const begining = add(justDate, { hours: beginingNumber })
+      const end = add(justDate, { hours: endNumber })
+      const interval = 30
+
+      const times = []
+      console.log(bookings);
+      for (let i = begining; i < end; i = add(i, { minutes: interval })) {
+        const timeTOCheck = add(i, { minutes: check })
+        let isWithinAnyBooking = false;
+        bookings?.some((el) => {
+          const bookingStart = new Date(el.start_date_time);
+          const bookingEnd = new Date(el.end_date_time);
+
+          if (isWithinInterval(timeTOCheck, { start: bookingStart, end: bookingEnd })) {
+            isWithinAnyBooking = true;
+            return true; // exit the loop early since we found a booking
+          }
+
+          return false;
+        });
+
+        if (!isWithinAnyBooking) {
+          times.push(i);
+        }
+      }
+      return times
+    }  
 
 
+    // console.log('I re-rendered');
 
-  // console.log(date);
+
+    const times = getTimes(props.workingTimes, longetivity)
+    setFreeTimes(times)
+  },[bookings,props.barber])
 
 
   let days = eachDayOfInterval({
@@ -191,48 +141,47 @@ export default function Example(props) {
   // let selectedDayMeetings = meetings.filter((meeting) =>
   //   isSameDay(parseISO(meeting.startDatetime), selectedDay)
   // );
-  const GetTimes = (e) => {
-    // e.split('-')
-    // console.log(e);
+  // const GetTimes = (e) => {
+  //   // e.split('-')
+  //   // console.log(e);
 
-    const longetivity = parseInt(useSelector((state) => state.toolkit.time));
+  //   const longetivity = parseInt(useSelector((state) => state.toolkit.time));
 
-    const check = Math.ceil(longetivity / 30) * 30
-    const { justDate } = date
-    const beginingNumber = parseInt(e.substring(0, 2));
-    const endNumber = parseInt(e.substring(3));
+  //   const check = Math.ceil(longetivity / 30) * 30
+  //   const { justDate } = date
+  //   const beginingNumber = parseInt(e.substring(0, 2));
+  //   const endNumber = parseInt(e.substring(3));
 
-    const begining = add(justDate, { hours: beginingNumber })
-    const end = add(justDate, { hours: endNumber })
-    const interval = 30
+  //   const begining = add(justDate, { hours: beginingNumber })
+  //   const end = add(justDate, { hours: endNumber })
+  //   const interval = 30
 
-    const times = []
+  //   const times = []
 
-    for (let i = begining; i < end; i = add(i, { minutes: interval })) {
-      const timeTOCheck = add(i, { minutes: check })
-      let isWithinAnyBooking = false;
+  //   for (let i = begining; i < end; i = add(i, { minutes: interval })) {
+  //     const timeTOCheck = add(i, { minutes: check })
+  //     let isWithinAnyBooking = false;
 
-      bookings?.some((el) => {
-        const bookingStart = new Date(el.startDateTime);
-        const bookingEnd = new Date(el.endDateTime);
+  //     bookings?.some((el) => {
+  //       const bookingStart = new Date(el.startDateTime);
+  //       const bookingEnd = new Date(el.endDateTime);
 
-        if (isWithinInterval(timeTOCheck, { start: bookingStart, end: bookingEnd })) {
-          isWithinAnyBooking = true;
-          return true; // exit the loop early since we found a booking
-        }
+  //       if (isWithinInterval(timeTOCheck, { start: bookingStart, end: bookingEnd })) {
+  //         isWithinAnyBooking = true;
+  //         return true; // exit the loop early since we found a booking
+  //       }
 
-        return false;
-      });
+  //       return false;
+  //     });
 
-      if (!isWithinAnyBooking) {
-        times.push(i);
-      }
-    }
-    return times
-  }
+  //     if (!isWithinAnyBooking) {
+  //       times.push(i);
+  //     }
+  //   }
+  //   return times
+  // }
 
-  const longetivity = parseInt(useSelector((state) => state.toolkit.time));
-  const times = GetTimes(props.workingTimes)
+  // const times = GetTimes(props.workingTimes)
   // console.log(times);
   useEffect(() => {
     const getTimes = (e, longetivity) => {
@@ -252,8 +201,8 @@ export default function Example(props) {
         let isWithinAnyBooking = false;
 
         bookings?.some((el) => {
-          const bookingStart = new Date(el.startDateTime);
-          const bookingEnd = new Date(el.endDateTime);
+          const bookingStart = new Date(el.start_date_time);
+          const bookingEnd = new Date(el.end_date_time);
 
           if (isWithinInterval(timeTOCheck, { start: bookingStart, end: bookingEnd })) {
             isWithinAnyBooking = true;
@@ -275,7 +224,11 @@ export default function Example(props) {
 
 
     const times = getTimes(props.workingTimes, longetivity)
+    setFreeTimes(times)
+    console.log(freeTimes);
   }, [date.justDate, longetivity])
+
+
 
   useEffect(() => {
     console.log(date.dateTime);
@@ -284,12 +237,12 @@ export default function Example(props) {
 
     if (date.dateTime !== null) {
       const unformattedStartDate = new Date(date.dateTime);
-      const start = format(unformattedStartDate, 'yyyy-MM-dd HH:mm');
+      const start = format(unformattedStartDate, 'yyyy-MM-dd  HH:mm');
 
       const unformattedEndDate = add(unformattedStartDate, { minutes: interval });
-      const end = format(unformattedEndDate, 'yyyy-MM-dd HH:mm');
+      const end = format(unformattedEndDate, 'yyyy-MM-dd  HH:mm');
 
-      console.log(interval, start, end);
+      // console.log(interval, start, end);
       dispatch(selectDate({ start, end }));
     }
   }, [date.dateTime, longetivity]);
@@ -379,30 +332,10 @@ export default function Example(props) {
               </time>
             </h2>
             <ol className="mt-4  text-sm leading-6 grid grid-cols-7 gap-1 text-gray-500">
-              {/* {selectedDayMeetings.length > 0 ? (
-                selectedDayMeetings.map((meeting) => (
-                  <Meeting meeting={meeting} key={meeting.id} />
-                ))
-              ) : (
-                <p>No meetings for today.</p>
-              )} */}
-              {times?.map((time, i) => {
+              {freeTimes?.map((time, i) => {
                 return <div key={`time-${i}`} className='rounded-sm bg-gray-100  hover:cursor-pointer hover:bg-gray-300'>
                   <button className='p-2' onClick={() => {
                     setDate((prev) => ({ ...prev, dateTime: time }))
-                    // console.log(date.dateTime);
-                    // const interval = Math.ceil(longetivity / 30) * 30
-                    // if (date.dateTime !== null) {
-                    //   const unformattedStartDate = new Date(date.dateTime);
-                    //   const start = format(unformattedStartDate, "yyyy-MM-dd HH:mm");
-
-                    //   const unformattedEndDate = add(unformattedStartDate, { minutes: interval });
-                    //   const end = format(unformattedEndDate, "yyyy-MM-dd HH:mm");
-
-                    //   console.log(interval, start, end);
-                    //   dispatch(selectDate({ start, end }));
-                    // }
-
                   }}>
                     {format(time, "kk:mm")}
                   </button>
@@ -420,25 +353,6 @@ export default function Example(props) {
         </div>
       </div>
     </div>
-    // <>
-    //   <div>
-    //     <Calendar
-    //       minDate={new Date()}
-    //       view='month'
-    //       onClick={(date) => setDate((prev) => ({ ...prev, justDate: date }))}
-    //     />
-    //     {times?.map((time, i) => {
-    //       return <div key={`time-${i}`} className='rounded-sm bg-gray-100 p-2'>
-    //         <button onClick={() => { setDate((prev) => ({ ...prev, dateTime: time })) }}>
-    //           {format(time, "kk:mm")}
-    //         </button>
-    //       </div>
-    //     })}
-    //   </div>
-    //   <div>
-
-    //   </div>
-    // </>
   );
 }
 
