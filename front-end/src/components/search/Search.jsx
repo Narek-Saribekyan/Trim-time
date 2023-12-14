@@ -25,7 +25,7 @@ const Search = (props) => {
         <div className={props.searchValue.length > 0 && searchResults.length > 0 ? "searchResult active" : "searchResult"}>
             <ul className="searchList">
                 {searchResults.map((el) => (
-                    <Link onClick={inpClear} to={`/${el.name}`} key={el.id} className="searchList__link">
+                    <Link onClick={inpClear} to={`/barbershop/${el.id}`} key={el.id} className="searchList__link">
                         <li className="searchItem">
                             <img src={el.logo} alt="" />
                             <h2>{el.name}</h2>

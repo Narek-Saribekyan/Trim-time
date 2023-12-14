@@ -8,6 +8,7 @@ import Book from '../book/Book';
 import "./barbershop.css"
 import { useDispatch } from 'react-redux';
 import { chooseBarber } from '../../toolkitRedux/sliceToolkit';
+import MapComponent from '../Map/Map';
 
 const Barberhop = () => {
     const { id } = useParams();
@@ -80,6 +81,9 @@ const Barberhop = () => {
                             barber={selectedBarbershop.barbers[barberId]} />) : null}
                 </div>
             </main>
+            <footer>
+                <MapComponent address="1600 Amphitheatre Parkway, Mountain View, CA"/>
+            </footer>
         </>
     );
 };
