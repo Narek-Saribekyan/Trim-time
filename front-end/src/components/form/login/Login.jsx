@@ -1,114 +1,87 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const UserLogin = () => {
-    const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
-    const [user, setUser] = useState(null);
+const Login = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-        // Validate inputs
-        if (!login || !password) {
-            console.error('Login and password are required.');
-            return;
-        }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Add your login logic here
+    console.log('Form submitted:', formData);
+  };
 
-        try {
-            const response = await fetch('http://127.0.0.1:8000/api/loginUser', {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    login: login,
-                    password: password,
-                }),
-            });
-
-            if (response.ok) {
-                console.log('User logged in successfully!');
-
-                // Fetch user information after successful login using GET method
-                const userInfoResponse = await fetch('http://127.0.0.1:8000/api/user-info', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-                        'Content-Type': 'application/json',  // Add this line
-                    },
-                });
-
-                if (userInfoResponse.ok) {
-                    const userInfo = await userInfoResponse.json();
-                    setUser(userInfo);
-                } else {
-                    console.error('Failed to fetch user information.');
-                }
-            } else {
-                console.error('Failed to log in.');
-            }
-        } catch (error) {
-            console.error('Error during login:', error);
-        }
-
-        // Clear input fields after login
-        setLogin('');
-        setPassword('');
-    };
-
-    return (
-        <div style={authContainerStyle}>
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <label style={labelStyle}>
-                    Login:
-                    <input type="text" value={login} onChange={(e) => setLogin(e.target.value)} style={inputStyle}/>
-                </label>
-                <br/>
-                <label style={labelStyle}>
-                    Password:
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                           style={inputStyle}/>
-                </label>
-                <br/>
-                <button type="submit" style={buttonStyle}>Login</button>
-            </form>
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Log in to your account
+          </h2>
         </div>
-    );
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="email" className="sr-only">
+                Email address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Email address"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Log in
+            </button>
+          </div>
+        </form>
+        <div className="text-center">
+          <p className="text-sm text-gray-600">
+            Don't have an account?{' '}
+            <Link to="/user-register" className="font-medium text-indigo-600 hover:text-indigo-500">
+              Register here
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-// Styling styles
-const authContainerStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    padding: '20px',
-    border: '1px solid #ccc',
-    borderRadius: '8px',
-    textAlign: 'center',
-};
-
-const labelStyle = {
-    display: 'block',
-    margin: '10px 0',
-};
-
-const inputStyle = {
-    padding: '8px',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-    width: '200px',
-};
-
-const buttonStyle = {
-    padding: '10px',
-    borderRadius: '4px',
-    border: 'none',
-    background: '#007BFF',
-    color: '#fff',
-    cursor: 'pointer',
-};
-
-export default UserLogin;
+export default Login;

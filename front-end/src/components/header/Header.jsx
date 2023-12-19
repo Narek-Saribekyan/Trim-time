@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import logo from "../../assets/logoImg.svg"
 import "./header.css"
 import { useEffect, useState } from "react";
 import Navbar from "../navbar/navbar";
 import Search from "../search/Search";
-import UserLogin from "../form/login/Login";
 
 const Header = () => {
     const [search, setSearch] = useState("")
@@ -38,7 +37,7 @@ const Header = () => {
                         </div>
                         {!isAuth
                             ? <div className="header__button">
-                                <button>Login</button>
+                                <Link to={"/login"}>Login</Link>
                                 {/* <UserLogin/> */}
                             </div>
 

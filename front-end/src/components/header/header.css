@@ -30,13 +30,13 @@
   -moz-column-gap: 4.6875rem;
        column-gap: 4.6875rem;
 }
-.header__buttons button {
+.header__buttons a {
   padding: 10px 65px;
   border-radius: 80px;
   background: #0057FF;
   color: rgb(255, 255, 255);
 }
-.header__buttons button:hover {
+.header__buttons a:hover {
   background-color: #223965;
   cursor: pointer;
 }

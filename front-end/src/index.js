@@ -7,7 +7,8 @@ import Page404 from './components/Page404/page404';
 import Barbershop from './components/Barbershop/Barbershop';
 import UserRegister from './components/form/register/UserRegister';
 import Login from './components/form/login/Login';
-
+import Contact from './components/contactUs/ContatUs';
+import AboutUs from './components/aboutUs/AboutUs';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -24,6 +25,14 @@ const router = createBrowserRouter([
     {
         path: '/login',
         element: <Login/>,
+    },
+    {
+        path: '/contact',
+        element: <Contact/>,
+    },
+    {
+        path: '/aboutUs',
+        element: <AboutUs/>,
     },
     {
         path: '*',
